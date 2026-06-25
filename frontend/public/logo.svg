@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 190">
+
+  <!-- LIGHTBULB ICON — positioned above the 'i' in Agri -->
+
+  <!-- Bulb glass (navy circle) -->
+  <circle cx="148" cy="52" r="38" fill="#1E3A6B"/>
+
+  <!-- Fork: 3 tines (white) -->
+  <rect x="133" y="24" width="5.5" height="19" rx="2.7" fill="white"/>
+  <rect x="145.2" y="24" width="5.5" height="19" rx="2.7" fill="white"/>
+  <rect x="157.4" y="24" width="5.5" height="19" rx="2.7" fill="white"/>
+  <!-- Fork handle -->
+  <rect x="143.5" y="41" width="9" height="22" rx="4.5" fill="white"/>
+
+  <!-- Left leaf -->
+  <path d="M140 55 C133 48 132 37 139 31 C139 40 139.5 48 140 55Z" fill="#5B8C2A"/>
+  <!-- Right leaf -->
+  <path d="M156 55 C163 48 164 37 157 31 C157 40 156.5 48 156 55Z" fill="#5B8C2A"/>
+
+  <!-- Bulb bottom / glass curve down to socket -->
+  <path d="M113 72 Q115 84 126 87 L170 87 Q181 84 183 72 A38 38 0 0 1 113 72Z" fill="#1E3A6B"/>
+
+  <!-- Socket screw lines -->
+  <rect x="126" y="90" width="44" height="5.5" rx="2.7" fill="#1E3A6B"/>
+  <rect x="129" y="97.5" width="38" height="5.5" rx="2.7" fill="#1E3A6B"/>
+  <rect x="133" y="105" width="30" height="5" rx="2.5" fill="#1E3A6B"/>
+
+  <!-- Base tip -->
+  <rect x="139" y="112" width="18" height="7" rx="3.5" fill="#1E3A6B"/>
+
+  <!-- "Agri-Food" — navy, bold -->
+  <text
+    x="230"
+    y="140"
+    text-anchor="middle"
+    font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="800"
+    font-size="76"
+    fill="#1E3A6B"
+    letter-spacing="-1"
+  >Agri-Food</text>
+
+  <!-- "INNOVATION ACADEMY" — green, spaced -->
+  <text
+    x="230"
+    y="170"
+    text-anchor="middle"
+    font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="600"
+    font-size="19"
+    fill="#5B8C2A"
+    letter-spacing="6"
+  >INNOVATION ACADEMY</text>
+
+</svg>

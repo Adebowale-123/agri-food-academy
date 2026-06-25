@@ -1,0 +1,13 @@
+{
+  "name": "agri-food-innovation-academy",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install && npx prisma generate && npx prisma migrate deploy && npm run build",
+    "start": "cd backend && node dist/index.js",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev"
+  }
+}

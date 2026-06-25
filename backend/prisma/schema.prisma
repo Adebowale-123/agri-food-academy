@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  password    String
+  role        String       @default("student")
+  phone       String?
+  country     String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  enrollments Enrollment[]
+  blogPosts   BlogPost[]
+}
+
+model Course {
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  description String
+  faculty     String
+  price       Float          @default(0)
+  currency    String         @default("NGN")
+  thumbnail   String?
+  duration    String?
+  level       String         @default("Beginner")
+  published   Boolean        @default(false)
+  featured    Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  modules     CourseModule[]
+  enrollments Enrollment[]
+}
+
+model CourseModule {
+  id        String           @id @default(cuid())
+  courseId  String
+  title     String
+  order     Int              @default(0)
+  createdAt DateTime         @default(now())
+  course    Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  materials CourseMaterial[]
+}
+
+model CourseMaterial {
+  id        String       @id @default(cuid())
+  moduleId  String
+  title     String
+  type      String       @default("pdf")
+  fileUrl   String
+  fileName  String
+  fileSize  Int?
+  order     Int          @default(0)
+  createdAt DateTime     @default(now())
+  module    CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+}
+
+model Enrollment {
+  id         String    @id @default(cuid())
+  userId     String
+  courseId   String
+  status     String    @default("active")
+  paymentRef String?
+  amount     Float?
+  currency   String    @default("NGN")
+  paidAt     DateTime?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course     Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model Event {
+  id              String   @id @default(cuid())
+  title           String
+  description     String
+  date            DateTime
+  endDate         DateTime?
+  location        String?
+  type            String   @default("webinar")
+  registrationUrl String?
+  image           String?
+  featured        Boolean  @default(false)
+  published       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String
+  excerpt     String?
+  thumbnail   String?
+  authorId    String?
+  category    String    @default("General")
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User?     @relation(fields: [authorId], references: [id])
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  category    String   @default("General")
+  fileUrl     String
+  fileName    String
+  fileSize    Int?
+  fileType    String   @default("pdf")
+  downloads   Int      @default(0)
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

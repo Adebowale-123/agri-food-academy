@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130">
+  <!-- Lightbulb glass (navy circle) -->
+  <circle cx="50" cy="44" r="38" fill="#1E3A6B"/>
+
+  <!-- Fork tine left -->
+  <rect x="33" y="14" width="5" height="20" rx="2.5" fill="white"/>
+  <!-- Fork tine middle -->
+  <rect x="47.5" y="14" width="5" height="20" rx="2.5" fill="white"/>
+  <!-- Fork tine right -->
+  <rect x="62" y="14" width="5" height="20" rx="2.5" fill="white"/>
+  <!-- Fork handle (single stem) -->
+  <rect x="46" y="32" width="8" height="24" rx="4" fill="white"/>
+
+  <!-- Left leaf -->
+  <path d="M44 50 C38 44 36 32 43 26 C43 35 43.5 43 44 50Z" fill="#5B8C2A"/>
+  <!-- Right leaf -->
+  <path d="M56 50 C62 44 64 32 57 26 C57 35 56.5 43 56 50Z" fill="#5B8C2A"/>
+
+  <!-- Bottom of glass bulb (curved base connecting to socket) -->
+  <path d="M15 68 Q16 82 30 86 L70 86 Q84 82 85 68 A38 38 0 0 1 15 68Z" fill="#1E3A6B"/>
+
+  <!-- Socket screw lines -->
+  <rect x="30" y="89" width="40" height="6" rx="3" fill="#1E3A6B"/>
+  <rect x="33" y="97" width="34" height="6" rx="3" fill="#1E3A6B"/>
+  <rect x="37" y="105" width="26" height="6" rx="3" fill="#1E3A6B"/>
+
+  <!-- Base tip -->
+  <rect x="42" y="113" width="16" height="8" rx="4" fill="#1E3A6B"/>
+</svg>
