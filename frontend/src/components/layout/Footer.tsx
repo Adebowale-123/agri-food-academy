@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Globe } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Linkedin, Youtube, Instagram, Facebook } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -15,12 +15,25 @@ export default function Footer() {
             <p className="text-primary-200 text-sm leading-relaxed mb-4">
               Professional learning, training, consultancy, research and workforce development across the agri-food, manufacturing, hospitality and agriculture sectors.
             </p>
-            <p className="text-accent font-semibold italic text-sm">Building Competence. Driving Compliance. Inspiring Innovation.</p>
+            <p className="text-accent font-semibold text-sm italic mb-5">Building Competence. Driving Compliance. Inspiring Innovation.</p>
+            <div className="flex gap-2">
+              {[
+                { icon: Linkedin, href: 'https://linkedin.com/company/afiaacademy', label: 'LinkedIn' },
+                { icon: Facebook, href: 'https://facebook.com/afiaacademy', label: 'Facebook' },
+                { icon: Instagram, href: 'https://instagram.com/afiaacademy', label: 'Instagram' },
+                { icon: Youtube, href: 'https://youtube.com/@afiaacademy', label: 'YouTube' },
+              ].map(({ icon: Icon, href, label }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  className="w-8 h-8 bg-white/10 hover:bg-accent rounded-lg flex items-center justify-center transition-colors" title={label}>
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-white mb-4 text-lg">Quick Links</h4>
+            <h4 className="font-bold text-white mb-4 text-base">Quick Links</h4>
             <ul className="space-y-2">
               {[
                 ['/', 'Home'], ['/about', 'About AFIA'], ['/faculties', 'Our Services'],
@@ -28,26 +41,32 @@ export default function Footer() {
                 ['/resources', 'Resources'], ['/contact', 'Contact'],
               ].map(([to, label]) => (
                 <li key={to}>
-                  <Link to={to} className="text-primary-200 hover:text-accent text-sm transition-colors">{label}</Link>
+                  <Link to={to} className="text-primary-200 hover:text-accent text-sm transition-colors flex items-center gap-1">
+                    <span className="w-1 h-1 bg-accent rounded-full flex-shrink-0" />{label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Business Pillars */}
+          {/* Services */}
           <div>
-            <h4 className="font-bold text-white mb-4 text-lg">Our Services</h4>
+            <h4 className="font-bold text-white mb-4 text-base">Our Services</h4>
             <ul className="space-y-2 text-sm text-primary-200">
               {[
-                'Learning & Development',
-                'Professional Training Academy',
-                'Consultancy & Compliance',
+                'Process & Quality Management',
+                'Digital Compliance Platform',
+                'Compliance Consulting (UK)',
                 'Research & Innovation',
+                'Learning & Development',
+                'Food Safety Training',
+                'HACCP & ISO Consulting',
                 'Workforce Development',
-                'Digital Learning Platform',
               ].map((f) => (
                 <li key={f}>
-                  <Link to="/faculties" className="hover:text-accent transition-colors">{f}</Link>
+                  <Link to="/faculties" className="hover:text-accent transition-colors flex items-center gap-1">
+                    <span className="w-1 h-1 bg-accent/50 rounded-full flex-shrink-0" />{f}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -55,11 +74,11 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-white mb-4 text-lg">Contact Us</h4>
+            <h4 className="font-bold text-white mb-4 text-base">Contact Us</h4>
             <ul className="space-y-3 text-sm text-primary-200">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                <span>No. 12 Innovation Drive, Agri-Food Hub, Abuja, Nigeria</span>
+                <span>No. 12 Innovation Drive, Ikeja, Lagos State, Nigeria</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-accent flex-shrink-0" />
@@ -67,7 +86,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-accent flex-shrink-0" />
-                <a href="tel:+442081331985" className="hover:text-accent">+44 20 8133 1985</a>
+                <a href="tel:+2348101331985" className="hover:text-accent">+234 810 133 1985</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />
@@ -81,7 +100,7 @@ export default function Footer() {
             <div className="mt-5">
               <p className="text-xs text-primary-200 font-semibold uppercase tracking-widest mb-2">Our Presence</p>
               <div className="flex flex-wrap gap-1.5">
-                {['🇳🇬 Nigeria (HQ)', '🇬🇭 Ghana', '🇰🇪 Kenya', '🇿🇦 South Africa', '🇺🇬 Uganda', '🇬🇧 UK'].map((c) => (
+                {['🇳🇬 Nigeria (HQ)', '🇬🇭 Ghana', '🇰🇪 Kenya', '🇿🇦 S. Africa', '🇺🇬 Uganda', '🇬🇧 UK'].map((c) => (
                   <span key={c} className="bg-white/10 text-xs text-primary-200 px-2 py-1 rounded">{c}</span>
                 ))}
               </div>

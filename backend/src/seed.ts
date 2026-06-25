@@ -19,8 +19,8 @@ export async function seedDatabase() {
     data: {
       title: 'Food Safety & HACCP Fundamentals',
       slug: 'food-safety-haccp-fundamentals',
-      description: 'Learn the core principles of food safety management, HACCP analysis, and how to implement robust safety systems in your agri-food operation.',
-      faculty: 'Food Safety & Quality',
+      description: 'Learn the core principles of food safety management, HACCP analysis, and how to implement robust safety systems in your agri-food operation. Covers GMP, allergen management and NAFDAC compliance.',
+      faculty: 'Food Safety & Compliance',
       price: 45000,
       currency: 'NGN',
       duration: '8 weeks',
@@ -42,10 +42,10 @@ export async function seedDatabase() {
 
   const course2 = await prisma.course.create({
     data: {
-      title: 'Agro-Processing & Value Addition',
-      slug: 'agro-processing-value-addition',
-      description: 'Master the techniques of processing raw agricultural products into high-value goods. Covers equipment, quality control, and market-ready packaging.',
-      faculty: 'Agro-Processing',
+      title: 'Food Manufacturing Engineering Essentials',
+      slug: 'food-manufacturing-engineering-essentials',
+      description: 'Master the principles of food processing, equipment design, hygienic engineering and CIP cleaning systems. Essential for food factory managers and engineers.',
+      faculty: 'Food Manufacturing Engineering',
       price: 60000,
       currency: 'NGN',
       duration: '10 weeks',
@@ -64,10 +64,10 @@ export async function seedDatabase() {
 
   const course3 = await prisma.course.create({
     data: {
-      title: 'UK & EU Food Regulatory Compliance',
-      slug: 'uk-eu-food-regulatory-compliance',
-      description: 'Navigate UK and EU food law with confidence. From labelling regulations to import requirements — essential for exporters and manufacturers.',
-      faculty: 'Sustainability & Regulatory',
+      title: 'UK Food Law & Compliance for Exporters',
+      slug: 'uk-food-law-compliance-exporters',
+      description: 'Navigate UK food law with confidence. Covers labelling regulations, allergen law (Natasha\'s Law), import requirements, BRCGS and FSA standards — essential for Nigerian exporters targeting the UK market.',
+      faculty: 'Food Safety & Compliance',
       price: 150,
       currency: 'GBP',
       duration: '6 weeks',
@@ -194,10 +194,12 @@ export async function seedDatabase() {
       { key: 'siteTagline', value: 'Building Competence. Driving Compliance. Inspiring Innovation.' },
       { key: 'email', value: 'info@afiaacademy.com' },
       { key: 'phone', value: '+234 810 123 4567' },
-      { key: 'phoneUK', value: '+44 20 8133 1985' },
-      { key: 'addressNigeria', value: 'No. 12 Innovation Drive, Agri-Food Hub, Abuja, Nigeria' },
-      { key: 'addressUK', value: 'United Kingdom' },
+      { key: 'phone2', value: '+234 810 133 1985' },
+      { key: 'address', value: 'No. 12 Innovation Drive, Ikeja, Lagos State, Nigeria' },
       { key: 'website', value: 'www.afiaacademy.com' },
+      { key: 'social', value: '@afiaacademy' },
+      { key: 'mission', value: 'Empowering people, strengthening systems, and transforming industries through learning, compliance, innovation, and workforce development.' },
+      { key: 'vision', value: "To be Africa's leading academy for learning, innovation, workforce development, and industry excellence." },
       { key: 'about', value: 'Agri-Food Innovation Academy (AFIA) is a professional learning and development, training, consultancy, research and workforce development organisation committed to building competent professionals, compliant businesses and innovative solutions within the agri-food, manufacturing, hospitality and agriculture sectors across Africa and beyond.' },
     ],
   });

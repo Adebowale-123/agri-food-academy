@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Mail, Phone, MapPin, Send, CheckCircle, Globe } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, Globe, Linkedin, Youtube, Instagram, Facebook } from 'lucide-react';
 import api from '../services/api';
 
 interface FormData {
@@ -10,6 +10,13 @@ interface FormData {
   subject: string;
   message: string;
 }
+
+const SOCIAL = [
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/afiaacademy', color: 'hover:bg-blue-600' },
+  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/afiaacademy', color: 'hover:bg-blue-700' },
+  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/afiaacademy', color: 'hover:bg-pink-600' },
+  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com/@afiaacademy', color: 'hover:bg-red-600' },
+];
 
 export default function Contact() {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<FormData>();
@@ -29,11 +36,12 @@ export default function Contact() {
 
   return (
     <div className="pt-16">
-      <section className="bg-gradient-to-br from-primary to-primary-light py-16 text-white text-center">
+      <section className="bg-gradient-to-br from-primary-dark to-primary py-16 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+          <div className="inline-flex items-center gap-2 bg-white/10 text-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-4">Contact Us</div>
+          <h1 className="text-4xl font-bold mb-4">Get in Touch</h1>
           <p className="text-primary-100 text-lg">
-            Reach out to our team — we're here across Nigeria, Africa and the United Kingdom.
+            Reach out to our team — we're here to help across Nigeria, Africa and the United Kingdom.
           </p>
         </div>
       </section>
@@ -42,18 +50,18 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-16">
           {/* Contact Info */}
           <div>
-            <h2 className="text-2xl font-bold text-primary mb-8">Get in Touch</h2>
+            <h2 className="text-2xl font-bold text-primary mb-8">Contact Information</h2>
             <div className="space-y-4">
               {[
                 {
                   icon: MapPin,
-                  title: 'Nigeria Headquarters',
-                  lines: ['No. 12 Innovation Drive, Agri-Food Hub', 'Abuja, Nigeria'],
+                  title: 'Nigeria Office (Headquarters)',
+                  lines: ['No. 12 Innovation Drive, Ikeja,', 'Lagos State, Nigeria'],
                 },
                 {
                   icon: Phone,
                   title: 'Phone',
-                  lines: ['+234 810 123 4567 (Nigeria)', '+44 20 8133 1985 (UK)'],
+                  lines: ['+234 810 123 4567', '+234 810 133 1985'],
                 },
                 {
                   icon: Mail,
@@ -66,7 +74,7 @@ export default function Contact() {
                   lines: ['www.afiaacademy.com'],
                 },
               ].map(({ icon: Icon, title, lines }) => (
-                <div key={title} className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm">
+                <div key={title} className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Icon className="w-5 h-5 text-primary" />
                   </div>
@@ -78,7 +86,37 @@ export default function Contact() {
               ))}
             </div>
 
+            {/* Social Media */}
             <div className="mt-8 bg-white rounded-2xl p-6 shadow-sm">
+              <h3 className="font-bold text-primary mb-4">Follow Us — @afiaacademy</h3>
+              <div className="flex gap-3">
+                {SOCIAL.map(({ icon: Icon, label, href, color }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-10 h-10 bg-gray-100 text-gray-600 ${color} hover:text-white rounded-xl flex items-center justify-center transition-colors`}
+                    title={label}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ))}
+                {/* TikTok */}
+                <a
+                  href="https://tiktok.com/@afiaacademy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-gray-100 text-gray-600 hover:bg-black hover:text-white rounded-xl flex items-center justify-center transition-colors font-bold text-xs"
+                  title="TikTok"
+                >
+                  TT
+                </a>
+              </div>
+            </div>
+
+            {/* Presence */}
+            <div className="mt-6 bg-white rounded-2xl p-6 shadow-sm">
               <h3 className="font-bold text-primary mb-4">Our Presence</h3>
               <div className="grid grid-cols-2 gap-3">
                 {[
@@ -103,14 +141,15 @@ export default function Contact() {
           <div className="bg-white rounded-2xl p-8 shadow-md">
             {sent ? (
               <div className="text-center py-12">
-                <CheckCircle className="w-16 h-16 text-primary mx-auto mb-4" />
+                <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
                 <p className="text-gray-500 mb-6">We'll get back to you within 24 hours.</p>
                 <button onClick={() => setSent(false)} className="btn-outline">Send Another Message</button>
               </div>
             ) : (
               <>
-                <h2 className="text-2xl font-bold text-primary mb-6">Send a Message</h2>
+                <h2 className="text-2xl font-bold text-primary mb-2">Send a Message</h2>
+                <p className="text-gray-500 text-sm mb-6">Fill in the form below and we'll respond within 24 hours.</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
