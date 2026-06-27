@@ -1,28 +1,102 @@
-import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { Clock, Users, BookOpen, ChevronDown, Lock, CheckCircle, ArrowLeft } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Clock, Users, BookOpen, ChevronDown, Lock, CheckCircle, ArrowLeft, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import api from '../services/api';
 import { Course } from '../types';
 import { useAuthStore } from '../store/auth';
-import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 
+declare global {
+  interface Window { PaystackPop: any; }
+}
+
 export default function CourseDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const [openModule, setOpenModule] = useState<string | null>(null);
+  const [enrollError, setEnrollError] = useState('');
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: course, isLoading } = useQuery<Course>({
     queryKey: ['course', slug],
     queryFn: () => api.get(`/courses/${slug}`).then((r) => r.data),
   });
 
+  const { data: enrollmentData, isLoading: checkingEnrollment } = useQuery<{
+    enrolled: boolean;
+    enrollment: { id: string; status: string; certificate?: { id: string } } | null;
+  }>({
+    queryKey: ['enrollment-check', course?.id],
+    queryFn: () => api.get(`/enrollments/check/${course!.id}`).then((r) => r.data),
+    enabled: isAuthenticated() && !!course?.id,
+  });
+
+  const enrollMutation = useMutation({
+    mutationFn: (courseId: string) => api.post('/enrollments', { courseId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['enrollment-check', course?.id] });
+      navigate('/portal/courses');
+    },
+    onError: (err: any) => {
+      setEnrollError(err.response?.data?.error || 'Enrollment failed. Please try again.');
+    },
+  });
+
+  function handleFreeEnroll() {
+    if (!course) return;
+    setEnrollError('');
+    enrollMutation.mutate(course.id);
+  }
+
+  function handlePaystackPayment() {
+    if (!course || !user) return;
+    setEnrollError('');
+
+    const publicKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+    if (!publicKey || publicKey.includes('your_paystack')) {
+      setEnrollError('Payment system not configured. Please contact us to enroll.');
+      return;
+    }
+    if (!window.PaystackPop) {
+      setEnrollError('Payment system failed to load. Please refresh and try again.');
+      return;
+    }
+
+    const handler = window.PaystackPop.setup({
+      key: publicKey,
+      email: user.email,
+      amount: Math.round(course.price * 100),
+      currency: 'NGN',
+      ref: `AFIA-${course.id}-${Date.now()}`,
+      metadata: { courseId: course.id, courseName: course.title },
+      callback: async (response: { reference: string }) => {
+        try {
+          await api.post('/payments/verify', {
+            reference: response.reference,
+            courseId: course.id,
+          });
+          queryClient.invalidateQueries({ queryKey: ['enrollment-check', course.id] });
+          navigate('/portal/courses');
+        } catch (err: any) {
+          setEnrollError(err.response?.data?.error || 'Payment verified but enrollment failed. Contact support.');
+        }
+      },
+      onClose: () => {},
+    });
+    handler.openIframe();
+  }
+
   if (isLoading) return <div className="pt-16"><LoadingSpinner /></div>;
   if (!course) return <div className="pt-16 text-center py-20 text-gray-400">Course not found.</div>;
 
-  const price = course.price === 0 ? 'Free' : `${course.currency === 'GBP' ? '£' : '₦'}${course.price.toLocaleString()}`;
+  const isEnrolled = enrollmentData?.enrolled;
+  const currency = course.currency === 'GBP' ? '£' : '₦';
+  const price = course.price === 0 ? 'Free' : `${currency}${course.price.toLocaleString()}`;
+  const isPaid = course.price > 0;
+  const isNGN = course.currency === 'NGN' || !course.currency;
 
   return (
     <div className="pt-16">
@@ -44,30 +118,68 @@ export default function CourseDetail() {
               </div>
             </div>
 
+            {/* Enrollment card */}
             <div className="bg-white text-gray-900 rounded-2xl p-6 shadow-xl h-fit">
-              <div className="text-4xl font-bold text-primary mb-2">{price}</div>
+              <div className="text-4xl font-bold text-primary mb-1">{price}</div>
               {course.currency === 'NGN' && course.price > 0 && (
                 <p className="text-gray-400 text-sm mb-4">Nigerian Naira</p>
               )}
               {course.currency === 'GBP' && course.price > 0 && (
                 <p className="text-gray-400 text-sm mb-4">British Pounds</p>
               )}
-              {isAuthenticated() ? (
-                <Link
-                  to="/portal/courses"
-                  className="w-full block text-center bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors mb-3"
-                >
-                  Go to My Courses
-                </Link>
-              ) : (
+
+              {enrollError && (
+                <p className="text-red-500 text-sm mb-3 bg-red-50 rounded-lg px-3 py-2">{enrollError}</p>
+              )}
+
+              {!isAuthenticated() ? (
                 <Link
                   to="/register"
                   className="w-full block text-center bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors mb-3"
                 >
                   Register to Enroll
                 </Link>
+              ) : checkingEnrollment ? (
+                <div className="flex justify-center py-3 mb-3">
+                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                </div>
+              ) : isEnrolled ? (
+                <Link
+                  to={`/portal/courses/${course.id}`}
+                  className="w-full block text-center bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors mb-3"
+                >
+                  ✓ Access My Course
+                </Link>
+              ) : isPaid && !isNGN ? (
+                <a
+                  href="mailto:team.afiacademy@gmail.com"
+                  className="w-full block text-center bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors mb-3"
+                >
+                  Contact Us to Enroll
+                </a>
+              ) : isPaid ? (
+                <button
+                  onClick={handlePaystackPayment}
+                  className="w-full block text-center bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors mb-3"
+                >
+                  Pay {price} &amp; Enroll
+                </button>
+              ) : (
+                <button
+                  onClick={handleFreeEnroll}
+                  disabled={enrollMutation.isPending}
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors mb-3 disabled:opacity-60"
+                >
+                  {enrollMutation.isPending ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Enrolling...</>
+                  ) : 'Enroll Now — Free'}
+                </button>
               )}
-              <p className="text-xs text-gray-400 text-center">30-day money-back guarantee</p>
+
+              <p className="text-xs text-gray-400 text-center">
+                {isPaid ? '30-day money-back guarantee' : 'Free access to all course materials'}
+              </p>
+
               <div className="mt-5 border-t border-gray-100 pt-5 space-y-2">
                 {course.duration && (
                   <div className="flex justify-between text-sm">
