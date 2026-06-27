@@ -12,9 +12,9 @@ interface FormData {
 }
 
 const SOCIAL = [
-  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/afiaacademy', color: 'hover:bg-blue-600' },
-  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/afiaacademy', color: 'hover:bg-blue-700' },
-  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com/afiaacademy', color: 'hover:bg-pink-600' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/agri-food-innovation-academy/', color: 'hover:bg-blue-600' },
+  { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/share/1JDhc5mXyf/', color: 'hover:bg-blue-700' },
+  { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/p/DW-LoU8iNag/?igsh=aDliZG93cnd4aTRj', color: 'hover:bg-pink-600' },
   { icon: Youtube, label: 'YouTube', href: 'https://youtube.com/@afiaacademy', color: 'hover:bg-red-600' },
 ];
 
@@ -52,43 +52,51 @@ export default function Contact() {
           <div>
             <h2 className="text-2xl font-bold text-primary mb-8">Contact Information</h2>
             <div className="space-y-4">
-              {[
-                {
-                  icon: MapPin,
-                  title: 'Nigeria Office (Headquarters)',
-                  lines: ['No. 12 Innovation Drive, Ikeja,', 'Lagos State, Nigeria'],
-                },
-                {
-                  icon: Phone,
-                  title: 'Phone',
-                  lines: ['+234 810 123 4567', '+234 810 133 1985'],
-                },
-                {
-                  icon: Mail,
-                  title: 'Email',
-                  lines: ['info@afiaacademy.com'],
-                },
-                {
-                  icon: Globe,
-                  title: 'Website',
-                  lines: ['www.afiaacademy.com'],
-                },
-              ].map(({ icon: Icon, title, lines }) => (
-                <div key={title} className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                  <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 mb-1">{title}</p>
-                    {lines.map((l) => <p key={l} className="text-gray-500 text-sm">{l}</p>)}
+              <div className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900 mb-2">Our Offices</p>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs font-bold text-primary uppercase tracking-wide">🇬🇧 United Kingdom</p>
+                      <p className="text-gray-500 text-sm">4, Highgrove Court, Spalding, Lincolnshire</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-primary uppercase tracking-wide">🇳🇬 Nigeria (Headquarters)</p>
+                      <p className="text-gray-500 text-sm">8, Amore Street off Toyin Street, Ikeja</p>
+                    </div>
                   </div>
                 </div>
-              ))}
+              </div>
+              <div className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900 mb-1">Email</p>
+                  <a href="mailto:team.afiacademy@gmail.com" className="text-gray-500 text-sm hover:text-primary transition-colors">
+                    team.afiacademy@gmail.com
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Globe className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900 mb-1">Website</p>
+                  <a href="https://www.afiaacademy.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 text-sm hover:text-primary transition-colors">
+                    www.afiaacademy.com
+                  </a>
+                </div>
+              </div>
             </div>
 
             {/* Social Media */}
             <div className="mt-8 bg-white rounded-2xl p-6 shadow-sm">
-              <h3 className="font-bold text-primary mb-4">Follow Us — @afiaacademy</h3>
+              <h3 className="font-bold text-primary mb-4">Follow Us on Social Media</h3>
               <div className="flex gap-3">
                 {SOCIAL.map(({ icon: Icon, label, href, color }) => (
                   <a

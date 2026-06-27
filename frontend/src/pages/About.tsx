@@ -56,22 +56,25 @@ export default function About() {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-primary rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-accent mb-1">10K+</div>
-              <div className="text-sm text-primary-200">Learners Trained Annually</div>
-            </div>
-            <div className="bg-accent rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-white mb-1">100+</div>
-              <div className="text-sm text-white/80">Corporate Clients</div>
-            </div>
-            <div className="bg-accent rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-white mb-1">50+</div>
-              <div className="text-sm text-white/80">Certification Programmes</div>
-            </div>
-            <div className="bg-primary rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-accent mb-1">6</div>
-              <div className="text-sm text-primary-200">Countries Across Africa & UK</div>
+          <div className="relative rounded-2xl overflow-hidden shadow-xl h-[420px]">
+            <img
+              src="/images/afia-products.jpg.jpeg"
+              alt="AFIA — Innovating Food. Improving Lives."
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 grid grid-cols-2 gap-2 p-4">
+              {[
+                { value: '10K+', label: 'Learners Trained Annually' },
+                { value: '100+', label: 'Corporate Clients' },
+                { value: '50+', label: 'Certification Programmes' },
+                { value: '6', label: 'Countries Across Africa & UK' },
+              ].map(({ value, label }) => (
+                <div key={label} className="bg-primary/80 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10">
+                  <div className="text-2xl font-extrabold text-accent">{value}</div>
+                  <div className="text-xs text-primary-200 mt-0.5">{label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

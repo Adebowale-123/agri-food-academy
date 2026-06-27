@@ -182,36 +182,36 @@ export default function Home() {
           <div className="hidden lg:flex gap-3 h-[520px]">
             <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1576866209830-589e1bfbaa4d?w=400&h=560&fit=crop&auto=format"
-                alt="Food safety professional"
-                className="w-full h-full object-cover"
+                src="/images/hero-classroom.jpg.jpeg"
+                alt="AFIA expert-led training session"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute bottom-4 left-4 right-4 bg-primary/90 backdrop-blur rounded-xl px-4 py-3">
-                <div className="text-accent font-bold text-sm">Food Safety & Compliance</div>
-                <div className="text-white/70 text-xs mt-0.5">HACCP · ISO 22000 · BRCGS</div>
+                <div className="text-accent font-bold text-sm">Expert-Led Training</div>
+                <div className="text-white/70 text-xs mt-0.5">HACCP · GMP · Food Safety</div>
               </div>
             </div>
             <div className="flex-1 flex flex-col gap-3">
               <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=260&fit=crop&auto=format"
-                  alt="Professional training"
+                  src="/images/inspector.jpg.jpeg"
+                  alt="Food quality inspector on the production floor"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute bottom-3 left-3 right-3 bg-accent/90 backdrop-blur rounded-lg px-3 py-2">
-                  <div className="font-bold text-white text-xs">Professional Training</div>
-                  <div className="text-white/80 text-xs">Industry-led programmes</div>
+                  <div className="font-bold text-white text-xs">Quality & Compliance</div>
+                  <div className="text-white/80 text-xs">ISO · BRCGS · Auditing</div>
                 </div>
               </div>
               <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&h=260&fit=crop&auto=format"
-                  alt="Agriculture and agribusiness"
+                  src="/images/food-factory.jpg.jpeg"
+                  alt="Modern food manufacturing facility"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute bottom-3 left-3 right-3 bg-primary/90 backdrop-blur rounded-lg px-3 py-2">
-                  <div className="font-bold text-white text-xs">Agriculture & Agribusiness</div>
-                  <div className="text-white/80 text-xs">Sustainable farming solutions</div>
+                  <div className="font-bold text-white text-xs">Food Manufacturing</div>
+                  <div className="text-white/80 text-xs">Engineering · Hygienic Design</div>
                 </div>
               </div>
             </div>
@@ -383,6 +383,60 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── FOOD BUSINESS SERVICES ── */}
+      <section className="py-20 bg-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-primary-50 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-3">For Food Businesses</div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">Empowering Restaurants, Eateries & Hotels</h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">
+              We help food businesses build safe, efficient and profitable operations through training, consulting and practical solutions.
+            </p>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            <div className="rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="/images/afia-consulting.jpg.jpeg"
+                alt="AFIA — Empowering Food Businesses with Safety, Quality & Excellence"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <div className="grid sm:grid-cols-2 gap-4 mb-6">
+                {[
+                  { icon: '🛡️', title: 'Food Safety Management', desc: 'HACCP, Food Safety Plans, Risk Assessment & Control' },
+                  { icon: '👩‍🍳', title: 'Staff Training', desc: 'Food Hygiene, HACCP, Allergen Awareness & more' },
+                  { icon: '📋', title: 'Menu & Recipe Review', desc: 'Nutritional Analysis, Standard Recipes, Portion Control' },
+                  { icon: '🔍', title: 'Audits & Inspections', desc: 'Internal Audits, Pre-Inspection Checks & Compliance' },
+                  { icon: '🧹', title: 'Cleaning & Sanitation', desc: 'Cleaning Schedules, Sanitation Procedures & Monitoring' },
+                  { icon: '📄', title: 'Policies & Documentation', desc: 'Food Safety Policies, SOPs & Record Keeping' },
+                ].map(({ icon, title, desc }) => (
+                  <div key={title} className="flex items-start gap-3 bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <span className="text-2xl flex-shrink-0">{icon}</span>
+                    <div>
+                      <div className="font-bold text-primary text-sm">{title}</div>
+                      <div className="text-gray-500 text-xs mt-0.5 leading-snug">{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-primary rounded-2xl p-5">
+                <div className="text-accent font-extrabold text-sm uppercase tracking-widest mb-2">We Work With</div>
+                <div className="flex gap-3 mb-4">
+                  {['🍽️ Restaurants', '🥘 Eateries', '🏨 Hotels'].map((b) => (
+                    <span key={b} className="bg-white/10 text-white text-sm font-semibold px-3 py-1.5 rounded-full">{b}</span>
+                  ))}
+                </div>
+                <p className="text-primary-200 text-sm mb-4">Better Food. Better Business. Better Future.</p>
+                <Link to="/contact" className="inline-flex items-center gap-2 bg-accent text-white font-bold px-6 py-3 rounded-lg text-sm hover:bg-accent-light transition-colors">
+                  Get Started <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── DIGITAL LEARNING PLATFORM ── */}
       <section className="py-20 bg-primary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -446,22 +500,25 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-primary rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-accent mb-1">10K+</div>
-              <div className="text-sm text-primary-200">Learners Trained</div>
-            </div>
-            <div className="bg-accent rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-white mb-1">100+</div>
-              <div className="text-sm text-white/80">Corporate Clients</div>
-            </div>
-            <div className="bg-accent rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-white mb-1">50+</div>
-              <div className="text-sm text-white/80">Certifications</div>
-            </div>
-            <div className="bg-primary rounded-2xl p-6 text-white text-center">
-              <div className="text-4xl font-extrabold text-accent mb-1">6</div>
-              <div className="text-sm text-primary-200">Countries</div>
+          <div className="relative rounded-2xl overflow-hidden shadow-xl h-[380px]">
+            <img
+              src="/images/machinery.jpg.jpeg"
+              alt="Food manufacturing machinery"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 grid grid-cols-2 gap-2 p-4">
+              {[
+                { value: '10K+', label: 'Learners Trained' },
+                { value: '100+', label: 'Corporate Clients' },
+                { value: '50+', label: 'Certifications' },
+                { value: '6', label: 'Countries' },
+              ].map(({ value, label }) => (
+                <div key={label} className="bg-primary/80 backdrop-blur-sm rounded-xl p-3 text-center border border-white/10">
+                  <div className="text-2xl font-extrabold text-accent">{value}</div>
+                  <div className="text-xs text-primary-200 mt-0.5">{label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

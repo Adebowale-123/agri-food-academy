@@ -7,6 +7,8 @@ const SERVICES = [
     icon: ShieldCheck,
     title: 'Process & Quality Management Agent',
     subtitle: 'Nigerian Agri-Food Companies',
+    image: '/images/inspector.jpg.jpeg',
+    imageAlt: 'Food quality inspector on the production line',
     badge: 'bg-green-600',
     border: 'border-green-500',
     desc: 'We act as your outsourced Process & Quality Management Agent to build, implement and manage robust quality and compliance systems. This service is designed for Nigerian agri-food companies that need expert quality management support without the cost of full-time staff.',
@@ -27,6 +29,8 @@ const SERVICES = [
     icon: Monitor,
     title: 'Digital Compliance Platform',
     subtitle: 'App & Website',
+    image: '/images/machinery.jpg.jpeg',
+    imageAlt: 'Modern food processing equipment',
     badge: 'bg-blue-600',
     border: 'border-blue-500',
     desc: 'All your checklists, parameters, records and compliance documents – all in one place, easily accessible. Our digital compliance platform helps food businesses move from paper-based systems to smart, audit-ready digital records.',
@@ -48,6 +52,8 @@ const SERVICES = [
     icon: Globe,
     title: 'Compliance Consulting',
     subtitle: 'UK Agri-Food & Food Businesses',
+    image: '/images/afia-consulting.jpg.jpeg',
+    imageAlt: 'AFIA consulting services for food businesses',
     badge: 'bg-accent',
     border: 'border-accent',
     desc: 'We provide end-to-end compliance consulting for food businesses in the UK. From achieving your first food safety certification to maintaining multi-site compliance programmes, our UK-based experts guide you through every step.',
@@ -69,6 +75,8 @@ const SERVICES = [
     icon: FlaskConical,
     title: 'Research & Innovation Services',
     subtitle: 'Knowledge-Driven Solutions',
+    image: '/images/lab-science.jpg.jpeg',
+    imageAlt: 'Food science laboratory testing and research',
     badge: 'bg-amber-600',
     border: 'border-amber-500',
     desc: 'We generate knowledge and practical solutions that drive innovation and industry advancement. Our research team works with businesses and institutions to address technical challenges and unlock new opportunities.',
@@ -90,6 +98,8 @@ const SERVICES = [
     icon: Users,
     title: 'Learning & Development Solutions',
     subtitle: 'Including Workforce Development',
+    image: '/images/food-factory.jpg.jpeg',
+    imageAlt: 'AFIA food manufacturing learning environment',
     badge: 'bg-purple-600',
     border: 'border-purple-500',
     desc: 'We develop people and build high-performing workforces for sustainable growth. Our L&D solutions are fully tailored to your organisation\'s needs, industry context and strategic goals.',
@@ -126,8 +136,23 @@ export default function Faculties() {
       {/* Services */}
       <section className="py-20 bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
-          {SERVICES.map(({ num, icon: Icon, title, subtitle, badge, border, desc, items, focus, who, keyBenefits }, i) => (
+          {SERVICES.map(({ num, icon: Icon, title, subtitle, badge, border, desc, items, focus, who, keyBenefits, image, imageAlt }, i) => (
             <div key={title} className={`bg-white rounded-3xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden border-t-4 ${border}`}>
+              {image && (
+                <div className="relative h-52 overflow-hidden">
+                  <img src={image} alt={imageAlt} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/30" />
+                  <div className="absolute bottom-4 left-6 flex items-center gap-3">
+                    <div className={`${badge} w-10 h-10 rounded-xl flex items-center justify-center`}>
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-white/60 text-xs font-bold uppercase tracking-widest">Service {num}</div>
+                      <div className="text-white font-bold text-lg leading-snug">{title}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <div className="grid lg:grid-cols-5 gap-0">
                 {/* Left panel */}
                 <div className={`lg:col-span-2 p-8 flex flex-col ${i % 2 === 1 ? 'lg:order-2' : ''}`}>

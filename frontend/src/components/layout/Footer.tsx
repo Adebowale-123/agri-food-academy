@@ -18,9 +18,9 @@ export default function Footer() {
             <p className="text-accent font-semibold text-sm italic mb-5">Building Competence. Driving Compliance. Inspiring Innovation.</p>
             <div className="flex gap-2">
               {[
-                { icon: Linkedin, href: 'https://linkedin.com/company/afiaacademy', label: 'LinkedIn' },
-                { icon: Facebook, href: 'https://facebook.com/afiaacademy', label: 'Facebook' },
-                { icon: Instagram, href: 'https://instagram.com/afiaacademy', label: 'Instagram' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/company/agri-food-innovation-academy/', label: 'LinkedIn' },
+                { icon: Facebook, href: 'https://www.facebook.com/share/1JDhc5mXyf/', label: 'Facebook' },
+                { icon: Instagram, href: 'https://www.instagram.com/p/DW-LoU8iNag/?igsh=aDliZG93cnd4aTRj', label: 'Instagram' },
                 { icon: Youtube, href: 'https://youtube.com/@afiaacademy', label: 'YouTube' },
               ].map(({ icon: Icon, href, label }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
@@ -78,19 +78,21 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-primary-200">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                <span>No. 12 Innovation Drive, Ikeja, Lagos State, Nigeria</span>
+                <div>
+                  <div className="text-white font-semibold text-xs mb-0.5">🇬🇧 United Kingdom</div>
+                  <span>4, Highgrove Court, Spalding, Lincolnshire</span>
+                </div>
               </li>
-              <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-accent flex-shrink-0" />
-                <a href="tel:+2348101234567" className="hover:text-accent">+234 810 123 4567</a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-accent flex-shrink-0" />
-                <a href="tel:+2348101331985" className="hover:text-accent">+234 810 133 1985</a>
+              <li className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                <div>
+                  <div className="text-white font-semibold text-xs mb-0.5">🇳🇬 Nigeria</div>
+                  <span>8, Amore Street off Toyin Street, Ikeja</span>
+                </div>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />
-                <a href="mailto:info@afiaacademy.com" className="hover:text-accent">info@afiaacademy.com</a>
+                <a href="mailto:team.afiacademy@gmail.com" className="hover:text-accent">team.afiacademy@gmail.com</a>
               </li>
               <li className="flex items-center gap-2">
                 <Globe className="w-4 h-4 text-accent flex-shrink-0" />

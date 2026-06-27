@@ -8,6 +8,7 @@ import About from './pages/About';
 import Faculties from './pages/Faculties';
 import Courses from './pages/Courses';
 import CourseDetail from './pages/CourseDetail';
+import StaticCourseDetail from './pages/StaticCourseDetail';
 import Events from './pages/Events';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
@@ -64,6 +65,7 @@ export default function App() {
         <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
         <Route path="/faculties" element={<PublicLayout><Faculties /></PublicLayout>} />
         <Route path="/courses" element={<PublicLayout><Courses /></PublicLayout>} />
+        <Route path="/courses/preview/:level/:slug" element={<PublicLayout><StaticCourseDetail /></PublicLayout>} />
         <Route path="/courses/:slug" element={<PublicLayout><CourseDetail /></PublicLayout>} />
         <Route path="/events" element={<PublicLayout><Events /></PublicLayout>} />
         <Route path="/blog" element={<PublicLayout><Blog /></PublicLayout>} />
