@@ -31,7 +31,7 @@ export default function Resources() {
 
   return (
     <div className="pt-16">
-      <section className="bg-gradient-to-br from-primary to-primary-light py-16 text-white text-center">
+      <section className="bg-gradient-to-br from-primary-dark to-primary py-16 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Free Resources</h1>
           <p className="text-primary-100 text-lg">Download guides, templates, and checklists — free for registered members.</p>
@@ -50,7 +50,13 @@ export default function Resources() {
           {isLoading ? (
             <LoadingSpinner />
           ) : !resources || resources.length === 0 ? (
-            <div className="text-center py-20 text-gray-400">No resources yet.</div>
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-16 text-center">
+              <div className="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-8 h-8 text-primary-300" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">No resources yet</h3>
+              <p className="text-gray-400 text-sm">Free guides, templates, and checklists will be available here soon.</p>
+            </div>
           ) : (
             <div className="space-y-4">
               {resources.map((resource) => (

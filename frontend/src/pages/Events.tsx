@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Calendar } from 'lucide-react';
 import api from '../services/api';
 import EventCard from '../components/events/EventCard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
@@ -12,7 +13,7 @@ export default function Events() {
 
   return (
     <div className="pt-16">
-      <section className="bg-gradient-to-br from-primary to-primary-light py-16 text-white text-center">
+      <section className="bg-gradient-to-br from-primary-dark to-primary py-16 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Events & Webinars</h1>
           <p className="text-primary-100 text-lg">Stay connected through our events — workshops, webinars, and summits across Nigeria and the UK.</p>
@@ -24,9 +25,12 @@ export default function Events() {
           {isLoading ? (
             <LoadingSpinner />
           ) : !events || events.length === 0 ? (
-            <div className="text-center py-20 text-gray-400">
-              <p className="text-xl mb-2">No upcoming events</p>
-              <p className="text-sm">Check back soon for new events and webinars</p>
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-16 text-center">
+              <div className="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Calendar className="w-8 h-8 text-primary-300" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">No upcoming events</h3>
+              <p className="text-gray-400 text-sm">Check back soon — new workshops, webinars, and summits are added regularly.</p>
             </div>
           ) : (
             <div className="space-y-4">
