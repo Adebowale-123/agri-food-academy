@@ -178,16 +178,40 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Mobile hero image */}
-          <div className="block lg:hidden rounded-2xl overflow-hidden shadow-2xl relative">
-            <img
-              src="/images/hero-classroom.jpg.jpeg"
-              alt="AFIA expert-led training session"
-              className="w-full h-64 sm:h-80 object-cover"
-            />
-            <div className="absolute bottom-4 left-4 right-4 bg-primary/90 backdrop-blur rounded-xl px-4 py-3">
-              <div className="text-accent font-bold text-sm">Expert-Led Training</div>
-              <div className="text-white/70 text-xs mt-0.5">HACCP · GMP · Food Safety</div>
+          {/* Mobile/tablet image mosaic */}
+          <div className="flex lg:hidden gap-2 h-[340px] sm:h-[420px]">
+            <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
+              <img
+                src="/images/hero-classroom.jpg.jpeg"
+                alt="AFIA expert-led training session"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-3 left-3 right-3 bg-primary/90 backdrop-blur rounded-xl px-3 py-2">
+                <div className="text-accent font-bold text-xs">Expert-Led Training</div>
+                <div className="text-white/70 text-xs mt-0.5">HACCP · GMP · Food Safety</div>
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col gap-2">
+              <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
+                <img
+                  src="/images/inspector.jpg.jpeg"
+                  alt="Food quality inspector"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-2 left-2 right-2 bg-accent/90 backdrop-blur rounded-lg px-2 py-1.5">
+                  <div className="font-bold text-white text-xs">Quality & Compliance</div>
+                </div>
+              </div>
+              <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
+                <img
+                  src="/images/food-factory.jpg.jpeg"
+                  alt="Food manufacturing facility"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-2 left-2 right-2 bg-primary/90 backdrop-blur rounded-lg px-2 py-1.5">
+                  <div className="font-bold text-white text-xs">Food Manufacturing</div>
+                </div>
+              </div>
             </div>
           </div>
 
