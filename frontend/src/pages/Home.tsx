@@ -178,7 +178,20 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Image mosaic */}
+          {/* Mobile hero image */}
+          <div className="block lg:hidden rounded-2xl overflow-hidden shadow-2xl relative">
+            <img
+              src="/images/hero-classroom.jpg.jpeg"
+              alt="AFIA expert-led training session"
+              className="w-full h-64 sm:h-80 object-cover"
+            />
+            <div className="absolute bottom-4 left-4 right-4 bg-primary/90 backdrop-blur rounded-xl px-4 py-3">
+              <div className="text-accent font-bold text-sm">Expert-Led Training</div>
+              <div className="text-white/70 text-xs mt-0.5">HACCP · GMP · Food Safety</div>
+            </div>
+          </div>
+
+          {/* Desktop image mosaic */}
           <div className="hidden lg:flex gap-3 h-[520px]">
             <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl">
               <img
