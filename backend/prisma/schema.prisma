@@ -8,38 +8,40 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  name         String
-  email        String        @unique
-  password     String
-  role         String        @default("student")
-  phone        String?
-  country      String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  enrollments  Enrollment[]
-  blogPosts    BlogPost[]
-  certificates Certificate[]
+  id              String           @id @default(cuid())
+  name            String
+  email           String           @unique
+  password        String
+  role            String           @default("student")
+  phone           String?
+  country         String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  enrollments     Enrollment[]
+  blogPosts       BlogPost[]
+  certificates    Certificate[]
+  paymentRequests PaymentRequest[]
 }
 
 model Course {
-  id           String         @id @default(cuid())
-  title        String
-  slug         String         @unique
-  description  String
-  faculty      String
-  price        Float          @default(0)
-  currency     String         @default("NGN")
-  thumbnail    String?
-  duration     String?
-  level        String         @default("Beginner")
-  published    Boolean        @default(false)
-  featured     Boolean        @default(false)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  modules      CourseModule[]
-  enrollments  Enrollment[]
-  certificates Certificate[]
+  id              String           @id @default(cuid())
+  title           String
+  slug            String           @unique
+  description     String
+  faculty         String
+  price           Float            @default(0)
+  currency        String           @default("NGN")
+  thumbnail       String?
+  duration        String?
+  level           String           @default("Beginner")
+  published       Boolean          @default(false)
+  featured        Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  modules         CourseModule[]
+  enrollments     Enrollment[]
+  certificates    Certificate[]
+  paymentRequests PaymentRequest[]
 }
 
 model CourseModule {
@@ -149,6 +151,23 @@ model Message {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model PaymentRequest {
+  id           String    @id @default(cuid())
+  userId       String
+  courseId     String
+  amount       Float
+  currency     String    @default("NGN")
+  bankRef      String
+  transferDate String
+  note         String?
+  status       String    @default("pending")
+  reviewNote   String?
+  reviewedAt   DateTime?
+  createdAt    DateTime  @default(now())
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course       Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model SiteSetting {

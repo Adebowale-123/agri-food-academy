@@ -39,6 +39,7 @@ import AdminBlog from './pages/admin/AdminBlog';
 import AdminResources from './pages/admin/AdminResources';
 import AdminMessages from './pages/admin/AdminMessages';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminPaymentRequests from './pages/admin/AdminPaymentRequests';
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -99,6 +100,7 @@ export default function App() {
           <Route path="events" element={<AdminEvents />} />
           <Route path="blog" element={<AdminBlog />} />
           <Route path="resources" element={<AdminResources />} />
+          <Route path="payment-requests" element={<AdminPaymentRequests />} />
           <Route path="messages" element={<AdminMessages />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
