@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { Search, ShieldCheck, Award, FlaskConical, Lightbulb, Briefcase, Heart, Factory, BookOpen } from 'lucide-react';
-import api from '../services/api';
-import CourseCard from '../components/courses/CourseCard';
-import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { Course } from '../types';
 import { LEVEL_COURSE_LIST, titleToSlug, findLevelForCourse } from '../data/courseData';
 
 const CATEGORIES = [
@@ -146,22 +141,15 @@ export default function Courses() {
   const [level, setLevel] = useState('All');
   const [search, setSearch] = useState('');
 
-  const { data: courses, isLoading } = useQuery<Course[]>({
-    queryKey: ['courses'],
-    queryFn: () => api.get('/courses').then((r) => r.data),
-  });
+  // Flat list of every course across all categories (for the "All" view)
+  const ALL_COURSES = COURSE_LIST.flatMap(({ cat, courses: cl }) =>
+    cl.map((title) => ({ title, cat, level: findLevelForCourse(title) ?? 'Foundation' }))
+  );
 
-  // DB-level name mapping (DB still stores "Beginner")
-  const dbLevel = level === 'Foundation' ? 'Beginner' : level;
-
-  const filtered = (courses || []).filter((c) => {
-    const matchFaculty = faculty === 'All' || c.faculty === faculty;
-    const matchLevel = level === 'All' || c.level === dbLevel;
-    const matchSearch =
-      !search ||
-      c.title.toLowerCase().includes(search.toLowerCase()) ||
-      c.description.toLowerCase().includes(search.toLowerCase());
-    return matchFaculty && matchLevel && matchSearch;
+  const allFiltered = ALL_COURSES.filter(({ title, cat }) => {
+    const matchFaculty = faculty === 'All' || cat === faculty;
+    const matchSearch = !search || title.toLowerCase().includes(search.toLowerCase());
+    return matchFaculty && matchSearch;
   });
 
   // Level-specific static course logic
@@ -184,7 +172,7 @@ export default function Courses() {
     return acc;
   }, {});
 
-  const totalCount = flatCourses?.length ?? filtered.length;
+  const totalCount = flatCourses?.length ?? allFiltered.length;
 
   return (
     <div className="pt-16">
@@ -205,7 +193,7 @@ export default function Courses() {
       <section className="bg-white border-b border-gray-200 sticky top-16 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-wrap gap-2 mb-3">
-            {CATEGORIES.map(({ label, value, icon: Icon, color }) => (
+            {CATEGORIES.map(({ label, value, icon: Icon }) => (
               <button
                 key={value}
                 onClick={() => setFaculty(value)}
@@ -312,28 +300,22 @@ export default function Courses() {
       {/* ── All-levels view ── */}
       {level === 'All' && (
         <>
-          {!isLoading && filtered.length > 0 && (
-            <section className="py-12 bg-surface">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                <p className="text-gray-500 text-sm mb-6">
-                  {filtered.length} programme{filtered.length !== 1 ? 's' : ''} available
-                </p>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filtered.map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                  ))}
-                </div>
+          {/* 3 featured cards */}
+          <section className="py-12 bg-surface">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  { title: 'Introduction to HACCP for Food Businesses (Foundation Level)', cat: 'Food Safety & Compliance', level: 'Foundation' },
+                  { title: 'Food Product Development & Commercialisation (Concept to Market)', cat: 'Product Development & Innovation', level: 'Intermediate' },
+                  { title: 'ISO 9001: Quality Management Systems for Food Industry Compliance', cat: 'Quality Management & Systems', level: 'Advanced' },
+                ].map(({ title, cat, level: courseLvl }) => (
+                  <StaticCourseCard key={title} title={title} cat={cat} level={courseLvl} />
+                ))}
               </div>
-            </section>
-          )}
-
-          {isLoading && (
-            <div className="py-20 flex justify-center">
-              <LoadingSpinner />
             </div>
-          )}
+          </section>
 
-          {/* Full catalogue */}
+          {/* Full catalogue list */}
           <section className="py-16 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="text-center mb-10">
@@ -341,51 +323,44 @@ export default function Courses() {
                 <p className="text-gray-500">40+ programmes across 7 professional learning tracks</p>
               </div>
               <div className="space-y-8">
-                {COURSE_LIST.filter((cl) => faculty === 'All' || cl.cat === faculty).map(
-                  ({ cat, courses: courseList }) => {
-                    const catInfo = CATEGORIES.find((c) => c.value === cat);
-                    const Icon = catInfo?.icon || ShieldCheck;
-                    const color = catInfo?.color || 'bg-primary';
-                    return (
-                      <div key={cat} className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
-                        <div className={`${color} px-6 py-4 flex items-center gap-3`}>
-                          <Icon className="w-5 h-5 text-white" />
-                          <h3 className="text-white font-bold">{cat}</h3>
-                          <span className="ml-auto bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
-                            {courseList.length} courses
-                          </span>
-                        </div>
-                        <div className="grid sm:grid-cols-2 gap-px bg-gray-100">
-                          {courseList.map((course) => {
-                            const courseLvl = findLevelForCourse(course);
-                            const inner = (
-                              <>
-                                <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0 mt-2" />
-                                <span className="text-sm text-gray-700 group-hover/item:text-primary group-hover/item:underline">{course}</span>
-                              </>
-                            );
-                            return courseLvl ? (
-                              <Link
-                                key={course}
-                                to={`/courses/preview/${courseLvl}/${titleToSlug(course)}`}
-                                className="bg-white px-5 py-3 flex items-start gap-2 hover:bg-primary-50 transition-colors group/item"
-                              >
-                                {inner}
-                              </Link>
-                            ) : (
-                              <div
-                                key={course}
-                                className="bg-white px-5 py-3 flex items-start gap-2"
-                              >
-                                {inner}
-                              </div>
-                            );
-                          })}
-                        </div>
+                {COURSE_LIST.filter((cl) => faculty === 'All' || cl.cat === faculty).map(({ cat, courses: courseList }) => {
+                  const catInfo = CATEGORIES.find((c) => c.value === cat);
+                  const Icon = catInfo?.icon || ShieldCheck;
+                  const color = catInfo?.color || 'bg-primary';
+                  const filtered = courseList.filter((t) => !search || t.toLowerCase().includes(search.toLowerCase()));
+                  if (filtered.length === 0) return null;
+                  return (
+                    <div key={cat} className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                      <div className={`${color} px-6 py-4 flex items-center gap-3`}>
+                        <Icon className="w-5 h-5 text-white" />
+                        <h3 className="text-white font-bold">{cat}</h3>
+                        <span className="ml-auto bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
+                          {filtered.length} courses
+                        </span>
                       </div>
-                    );
-                  }
-                )}
+                      <div className="grid sm:grid-cols-2 gap-px bg-gray-100">
+                        {filtered.map((course) => {
+                          const courseLvl = findLevelForCourse(course);
+                          return courseLvl ? (
+                            <Link
+                              key={course}
+                              to={`/courses/preview/${courseLvl}/${titleToSlug(course)}`}
+                              className="bg-white px-5 py-3 flex items-start gap-2 hover:bg-primary-50 transition-colors group/item"
+                            >
+                              <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0 mt-2" />
+                              <span className="text-sm text-gray-700 group-hover/item:text-primary group-hover/item:underline">{course}</span>
+                            </Link>
+                          ) : (
+                            <div key={course} className="bg-white px-5 py-3 flex items-start gap-2">
+                              <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0 mt-2" />
+                              <span className="text-sm text-gray-700">{course}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>

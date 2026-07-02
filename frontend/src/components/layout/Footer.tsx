@@ -54,14 +54,11 @@ export default function Footer() {
             <h4 className="font-bold text-white mb-4 text-base">Our Services</h4>
             <ul className="space-y-2 text-sm text-primary-200">
               {[
-                'Process & Quality Management',
+                'Process & Quality Management Agent',
                 'Digital Compliance Platform',
-                'Compliance Consulting (UK)',
-                'Research & Innovation',
-                'Learning & Development',
-                'Food Safety Training',
-                'HACCP & ISO Consulting',
-                'Workforce Development',
+                'Compliance Consulting',
+                'Research & Innovation Services',
+                'Learning & Development Solutions',
               ].map((f) => (
                 <li key={f}>
                   <Link to="/faculties" className="hover:text-accent transition-colors flex items-center gap-1">
@@ -80,7 +77,7 @@ export default function Footer() {
                 <MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-white font-semibold text-xs mb-0.5">🇬🇧 United Kingdom</div>
-                  <span>4, Highgrove Court, Spalding, Lincolnshire</span>
+                  <span>Spalding, Lincolnshire</span>
                 </div>
               </li>
               <li className="flex items-start gap-2">

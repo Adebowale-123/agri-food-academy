@@ -61,7 +61,7 @@ export default function Contact() {
                   <div className="space-y-2">
                     <div>
                       <p className="text-xs font-bold text-primary uppercase tracking-wide">🇬🇧 United Kingdom</p>
-                      <p className="text-gray-500 text-sm">4, Highgrove Court, Spalding, Lincolnshire</p>
+                      <p className="text-gray-500 text-sm">Spalding, Lincolnshire</p>
                     </div>
                     <div>
                       <p className="text-xs font-bold text-primary uppercase tracking-wide">🇳🇬 Nigeria (Headquarters)</p>

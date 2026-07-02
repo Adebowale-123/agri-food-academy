@@ -1,4 +1,4 @@
-import { BookOpen, Clock, Users, Star } from 'lucide-react';
+import { BookOpen, Clock, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Course } from '../../types';
 import Badge from '../ui/Badge';
@@ -15,6 +15,7 @@ const FACULTY_COLORS: Record<string, any> = {
 export default function CourseCard({ course }: { course: Course }) {
   const color = FACULTY_COLORS[course.faculty] || 'green';
   const price = course.price === 0 ? 'Free' : `${course.currency === 'GBP' ? '£' : '₦'}${course.price.toLocaleString()}`;
+  const displayLevel = course.level === 'Beginner' ? 'Foundation' : course.level;
 
   return (
     <div className="card overflow-hidden group">
@@ -33,7 +34,7 @@ export default function CourseCard({ course }: { course: Course }) {
 
       <div className="p-5">
         <div className="flex items-center gap-2 mb-2">
-          <Badge variant="gray" className="text-xs">{course.level}</Badge>
+          <Badge variant="gray" className="text-xs">{displayLevel}</Badge>
         </div>
         <h3 className="font-bold text-gray-900 text-lg leading-snug mb-2 line-clamp-2">{course.title}</h3>
         <p className="text-gray-500 text-sm line-clamp-2 mb-4">{course.description}</p>

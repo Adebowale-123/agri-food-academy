@@ -7,9 +7,33 @@ import {
   TrendingUp, Leaf, Factory, Monitor,
 } from 'lucide-react';
 import api from '../services/api';
-import CourseCard from '../components/courses/CourseCard';
 import EventCard from '../components/events/EventCard';
-import { Course, Event } from '../types';
+import { Event } from '../types';
+import { titleToSlug } from '../data/courseData';
+
+const FEATURED_COURSES = [
+  {
+    title: 'Introduction to HACCP for Food Businesses (Foundation Level)',
+    cat: 'Food Safety & Compliance',
+    level: 'Foundation',
+    bgColor: 'bg-green-600',
+    shortCat: 'Food Safety & Compliance',
+  },
+  {
+    title: 'Food Product Development & Commercialisation (Concept to Market)',
+    cat: 'Product Development & Innovation',
+    level: 'Intermediate',
+    bgColor: 'bg-orange-600',
+    shortCat: 'Product Development',
+  },
+  {
+    title: 'ISO 9001: Quality Management Systems for Food Industry Compliance',
+    cat: 'Quality Management & Systems',
+    level: 'Advanced',
+    bgColor: 'bg-primary',
+    shortCat: 'Quality Management',
+  },
+];
 
 const STATS = [
   { value: '10,000+', label: 'Learners Trained Annually' },
@@ -123,10 +147,6 @@ const WHY_AFIA = [
 ];
 
 export default function Home() {
-  const { data: courses } = useQuery<Course[]>({
-    queryKey: ['featured-courses'],
-    queryFn: () => api.get('/courses?featured=true').then((r) => r.data),
-  });
   const { data: events } = useQuery<Event[]>({
     queryKey: ['featured-events'],
     queryFn: () => api.get('/events?featured=true').then((r) => r.data),
@@ -317,27 +337,51 @@ export default function Home() {
       </section>
 
       {/* ── FEATURED COURSES ── */}
-      {courses && courses.length > 0 && (
-        <section className="py-20 bg-surface">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <div className="inline-flex items-center gap-2 bg-primary-50 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-3">Featured Programmes</div>
-                <h2 className="section-title">Start Learning Today</h2>
-                <p className="section-subtitle">Practical, industry-led programmes designed for professionals across Africa and the UK</p>
-              </div>
-              <Link to="/courses" className="btn-outline hidden sm:inline-flex items-center gap-2">
-                All Programmes <ArrowRight className="w-4 h-4" />
-              </Link>
+      <section className="py-20 bg-surface">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <div className="inline-flex items-center gap-2 bg-primary-50 text-primary px-4 py-1.5 rounded-full text-sm font-semibold mb-3">Featured Programmes</div>
+              <h2 className="text-3xl font-bold text-primary mb-2">Start Learning Today</h2>
+              <p className="text-gray-500 max-w-2xl">Practical, industry-led programmes designed for professionals across Africa and the UK</p>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courses.slice(0, 3).map((course) => (
-                <CourseCard key={course.id} course={course} />
-              ))}
-            </div>
+            <Link to="/courses" className="btn-outline hidden sm:inline-flex items-center gap-2">
+              All Programmes <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-        </section>
-      )}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {FEATURED_COURSES.map(({ title, cat, level, bgColor, shortCat }) => (
+              <div key={title} className="card overflow-hidden group">
+                <div className={`relative h-44 ${bgColor} overflow-hidden`}>
+                  <div className="w-full h-full flex items-center justify-center">
+                    <BookOpen className="w-16 h-16 text-white opacity-30" />
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-white/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm">
+                      {shortCat}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <div className="mb-2">
+                    <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">{level}</span>
+                  </div>
+                  <h3 className="font-bold text-gray-900 text-base leading-snug mb-5 line-clamp-2">{title}</h3>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">{cat}</span>
+                    <Link
+                      to={`/courses/preview/${level}/${titleToSlug(title)}`}
+                      className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-light transition-colors"
+                    >
+                      Learn More
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── CORE SERVICES ── */}
       <section className="py-20 bg-white">
