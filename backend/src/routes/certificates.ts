@@ -76,7 +76,7 @@ router.get('/:courseId', authenticateToken, async (req: AuthRequest, res: Respon
       .text(certificate.user.name, 0, 200, { align: 'center' });
 
     // Underline for name
-    const nameWidth = doc.widthOfString(certificate.user.name, { fontSize: 38 });
+    const nameWidth = doc.widthOfString(certificate.user.name);
     const nameX = (W - nameWidth) / 2;
     doc.moveTo(nameX, 248).lineTo(nameX + nameWidth, 248).lineWidth(1).stroke('#4CAF50');
 
