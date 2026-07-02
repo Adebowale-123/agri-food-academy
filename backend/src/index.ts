@@ -16,6 +16,8 @@ import messagesRoutes from './routes/messages';
 import adminRoutes from './routes/admin';
 import settingsRoutes from './routes/settings';
 import uploadRoutes from './routes/upload';
+import paymentsRoutes from './routes/payments';
+import certificatesRoutes from './routes/certificates';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -45,6 +47,8 @@ app.use('/api/messages', messagesRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/payments', paymentsRoutes);
+app.use('/api/certificates', certificatesRoutes);
 
 // Serve React frontend in production
 if (isProd) {

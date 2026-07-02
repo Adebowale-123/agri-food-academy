@@ -8,7 +8,7 @@ interface BadgeProps {
 
 const variants = {
   green: 'bg-primary-100 text-primary',
-  accent: 'bg-yellow-100 text-yellow-800',
+  accent: 'bg-accent-100 text-accent-dark',
   blue: 'bg-blue-100 text-blue-800',
   orange: 'bg-orange-100 text-orange-800',
   red: 'bg-red-100 text-red-800',

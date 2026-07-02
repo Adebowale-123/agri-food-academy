@@ -4,12 +4,13 @@ import { Course } from '../../types';
 import Badge from '../ui/Badge';
 
 const FACULTY_COLORS: Record<string, any> = {
-  'Food Safety & Quality': 'green',
-  'Agro-Processing': 'orange',
-  'Product Innovation': 'blue',
-  'Business & Entrepreneurship': 'accent',
-  'Technology & Digital': 'blue',
-  'Sustainability & Regulatory': 'gray',
+  'Food Safety & Compliance': 'green',
+  'Food Manufacturing Engineering': 'blue',
+  'Food Science & Laboratory Systems': 'orange',
+  'Product Development & Innovation': 'orange',
+  'Food Entrepreneurship & Industry': 'accent',
+  'Health, Safety & Environment (HSE)': 'red',
+  'Quality Management & Systems': 'green',
 };
 
 export default function CourseCard({ course }: { course: Course }) {

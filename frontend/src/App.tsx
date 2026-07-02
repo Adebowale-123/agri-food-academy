@@ -1,4 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import { useAuthStore } from './store/auth';
@@ -32,6 +39,7 @@ import AdminBlog from './pages/admin/AdminBlog';
 import AdminResources from './pages/admin/AdminResources';
 import AdminMessages from './pages/admin/AdminMessages';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminPaymentRequests from './pages/admin/AdminPaymentRequests';
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -59,6 +67,7 @@ function RequireAdmin({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Public */}
         <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
@@ -91,6 +100,7 @@ export default function App() {
           <Route path="events" element={<AdminEvents />} />
           <Route path="blog" element={<AdminBlog />} />
           <Route path="resources" element={<AdminResources />} />
+          <Route path="payment-requests" element={<AdminPaymentRequests />} />
           <Route path="messages" element={<AdminMessages />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
