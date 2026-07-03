@@ -167,7 +167,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold mb-6">
-              🌍 Nigeria · Ghana · Kenya · South Africa · Uganda · United Kingdom
+              🌍 Nigeria · United Kingdom
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-white leading-tight mb-4">
               Building Competence.<br />
@@ -178,7 +178,7 @@ export default function Home() {
               Empowering People. Strengthening Systems. Transforming Industries.
             </p>
             <p className="text-primary-200 text-base leading-relaxed mb-8 max-w-xl">
-              AFIA is a professional learning, training, consultancy, research and workforce development organisation committed to building competent professionals and compliant businesses across the agri-food, manufacturing, hospitality and agriculture sectors.
+              Agri-Food Innovation Academy (AFIA) is an international provider of professional education, technical consultancy, research, and workforce development services. We work with individuals, businesses, and institutions across the agri-food, manufacturing, hospitality, and agriculture sectors, delivering practical solutions that strengthen skills, improve performance, and support regulatory compliance.
             </p>
             <div className="flex flex-wrap gap-4 mb-10">
               <Link to="/courses" className="bg-accent text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-light transition-colors flex items-center gap-2">
@@ -655,10 +655,6 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-4">
             {[
               { flag: '🇳🇬', name: 'Nigeria', note: 'HQ' },
-              { flag: '🇬🇭', name: 'Ghana', note: '' },
-              { flag: '🇰🇪', name: 'Kenya', note: '' },
-              { flag: '🇿🇦', name: 'South Africa', note: '' },
-              { flag: '🇺🇬', name: 'Uganda', note: '' },
               { flag: '🇬🇧', name: 'United Kingdom', note: '' },
             ].map(({ flag, name, note }) => (
               <div key={name} className="flex items-center gap-2 bg-white px-5 py-3 rounded-full shadow-sm border border-gray-100">

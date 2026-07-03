@@ -130,10 +130,6 @@ export default function Contact() {
                 {[
                   { flag: '🇳🇬', name: 'Nigeria', note: 'HQ' },
                   { flag: '🇬🇧', name: 'United Kingdom', note: '' },
-                  { flag: '🇬🇭', name: 'Ghana', note: '' },
-                  { flag: '🇰🇪', name: 'Kenya', note: '' },
-                  { flag: '🇿🇦', name: 'South Africa', note: '' },
-                  { flag: '🇺🇬', name: 'Uganda', note: '' },
                 ].map(({ flag, name, note }) => (
                   <div key={name} className="flex items-center gap-2">
                     <span className="text-xl">{flag}</span>

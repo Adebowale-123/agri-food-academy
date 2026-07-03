@@ -36,7 +36,7 @@ export default function About() {
               We serve individuals and organisations — from food manufacturers and agribusinesses to government agencies and NGOs — helping them close skills gaps, pass audits, achieve certifications, and develop their workforce for sustainable growth.
             </p>
             <p className="text-gray-600 leading-relaxed mb-6">
-              With our headquarters in Abuja, Nigeria, and a presence across Ghana, Kenya, South Africa, Uganda and the United Kingdom, AFIA is building Africa's most trusted institution for professional learning and compliance excellence.
+              With our headquarters in Abuja, Nigeria, and a presence in the United Kingdom, AFIA is building Africa's most trusted institution for professional learning and compliance excellence.
             </p>
             <div className="grid grid-cols-2 gap-3">
               {[
@@ -89,7 +89,7 @@ export default function About() {
             </div>
             <h3 className="text-2xl font-bold text-primary mb-4">Our Mission</h3>
             <p className="text-gray-600 leading-relaxed">
-              To empower individuals and organisations through industry-relevant education, workforce development, technical consultancy, compliance support and innovation solutions that improve competence, productivity and business performance.
+              Empowering people, strengthening systems, and transforming industries through learning, compliance, innovation, and workforce development.
             </p>
           </div>
           <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
@@ -98,7 +98,7 @@ export default function About() {
             </div>
             <h3 className="text-2xl font-bold text-primary mb-4">Our Vision</h3>
             <p className="text-gray-600 leading-relaxed">
-              To become Africa's most trusted and impactful institution for professional learning, compliance excellence and innovation in the agri-food ecosystem.
+              To be Africa's leading academy for learning, innovation, workforce development, and industry excellence.
             </p>
           </div>
         </div>
@@ -131,10 +131,6 @@ export default function About() {
           <div className="flex flex-wrap justify-center gap-4">
             {[
               { flag: '🇳🇬', name: 'Nigeria', note: 'HQ' },
-              { flag: '🇬🇭', name: 'Ghana', note: '' },
-              { flag: '🇰🇪', name: 'Kenya', note: '' },
-              { flag: '🇿🇦', name: 'South Africa', note: '' },
-              { flag: '🇺🇬', name: 'Uganda', note: '' },
               { flag: '🇬🇧', name: 'United Kingdom', note: '' },
             ].map(({ flag, name, note }) => (
               <div key={name} className="flex items-center gap-2 bg-primary-50 px-5 py-3 rounded-full border border-primary-100">

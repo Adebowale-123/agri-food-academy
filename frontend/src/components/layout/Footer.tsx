@@ -111,7 +111,7 @@ export default function Footer() {
             <div className="mt-5">
               <p className="text-xs text-primary-200 font-semibold uppercase tracking-widest mb-2">Our Presence</p>
               <div className="flex flex-wrap gap-1.5">
-                {['🇳🇬 Nigeria (HQ)', '🇬🇭 Ghana', '🇰🇪 Kenya', '🇿🇦 S. Africa', '🇺🇬 Uganda', '🇬🇧 UK'].map((c) => (
+                {['🇳🇬 Nigeria (HQ)', '🇬🇧 UK'].map((c) => (
                   <span key={c} className="bg-white/10 text-xs text-primary-200 px-2 py-1 rounded">{c}</span>
                 ))}
               </div>

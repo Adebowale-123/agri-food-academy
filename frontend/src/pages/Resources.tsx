@@ -33,8 +33,9 @@ export default function Resources() {
     <div className="pt-16">
       <section className="bg-gradient-to-br from-primary-dark to-primary py-16 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Free Resources</h1>
-          <p className="text-primary-100 text-lg">Download guides, templates, and checklists — free for registered members.</p>
+          <h1 className="text-4xl font-bold mb-4">RESOURCES</h1>
+          <p className="text-primary-100 text-lg">Discounted digital products for registered members</p>
+          <p className="text-primary-100 text-lg">Downloadable guides, templates, checklists...etc</p>
         </div>
       </section>
 
