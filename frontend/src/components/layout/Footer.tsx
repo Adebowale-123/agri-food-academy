@@ -29,14 +29,14 @@ export default function Footer() {
                 { icon: Linkedin, href: 'https://www.linkedin.com/company/agri-food-innovation-academy/', label: 'LinkedIn' },
                 { icon: Facebook, href: 'https://www.facebook.com/share/1JDhc5mXyf/', label: 'Facebook' },
                 { icon: Instagram, href: 'https://www.instagram.com/p/DW-LoU8iNag/?igsh=aDliZG93cnd4aTRj', label: 'Instagram' },
-                { icon: Youtube, href: 'https://youtube.com/@afiaacademy', label: 'YouTube' },
+                { icon: Youtube, href: 'https://youtube.com/@agri-foodinnovation?si=AG-0PgkTb-1JGXcd', label: 'YouTube' },
               ].map(({ icon: Icon, href, label }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className="w-8 h-8 bg-white/10 hover:bg-accent rounded-lg flex items-center justify-center transition-colors" title={label}>
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
-              <a href="https://www.tiktok.com/@afiaacademy" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.tiktok.com/@afiacademy?_r=1&_t=ZN-97YrJzKBaCM" target="_blank" rel="noopener noreferrer"
                 className="w-8 h-8 bg-white/10 hover:bg-accent rounded-lg flex items-center justify-center transition-colors" title="TikTok">
                 <TikTokIcon className="w-4 h-4" />
               </a>

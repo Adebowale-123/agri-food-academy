@@ -15,7 +15,7 @@ const SOCIAL = [
   { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/agri-food-innovation-academy/', color: 'hover:bg-blue-600' },
   { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/share/1JDhc5mXyf/', color: 'hover:bg-blue-700' },
   { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/p/DW-LoU8iNag/?igsh=aDliZG93cnd4aTRj', color: 'hover:bg-pink-600' },
-  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com/@afiaacademy', color: 'hover:bg-red-600' },
+  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com/@agri-foodinnovation?si=AG-0PgkTb-1JGXcd', color: 'hover:bg-red-600' },
 ];
 
 export default function Contact() {
@@ -112,7 +112,7 @@ export default function Contact() {
                 ))}
                 {/* TikTok */}
                 <a
-                  href="https://tiktok.com/@afiaacademy"
+                  href="https://www.tiktok.com/@afiacademy?_r=1&_t=ZN-97YrJzKBaCM"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-100 text-gray-600 hover:bg-black hover:text-white rounded-xl flex items-center justify-center transition-colors font-bold text-xs"
