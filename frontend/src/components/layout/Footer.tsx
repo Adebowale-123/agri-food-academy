@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Globe, Linkedin, Youtube, Instagram, Facebook } from 'lucide-react';
+import { Mail, MapPin, Phone, Globe, Linkedin, Youtube, Instagram, Facebook } from 'lucide-react';
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -98,6 +98,14 @@ export default function Footer() {
                   <div className="text-white font-semibold text-xs mb-0.5">🇳🇬 Nigeria</div>
                   <span>8, Amore Street off Toyin Street, Ikeja</span>
                 </div>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-accent flex-shrink-0" />
+                <a href="tel:+447867414772" className="hover:text-accent">+44 7867 414772</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-accent flex-shrink-0" />
+                <a href="tel:+2349051517390" className="hover:text-accent">+234 905 151 7390</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-accent flex-shrink-0" />

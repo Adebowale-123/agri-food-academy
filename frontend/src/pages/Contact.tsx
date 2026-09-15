@@ -72,6 +72,24 @@ export default function Contact() {
               </div>
               <div className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900 mb-2">Phone</p>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs font-bold text-primary uppercase tracking-wide">🇬🇧 United Kingdom</p>
+                      <a href="tel:+447867414772" className="text-gray-500 text-sm hover:text-primary transition-colors">+44 7867 414772</a>
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-primary uppercase tracking-wide">🇳🇬 Nigeria</p>
+                      <a href="tel:+2349051517390" className="text-gray-500 text-sm hover:text-primary transition-colors">+234 905 151 7390</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-primary" />
                 </div>
                 <div>
