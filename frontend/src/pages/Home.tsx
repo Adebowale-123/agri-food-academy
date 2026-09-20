@@ -501,18 +501,50 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              <div className="bg-primary rounded-2xl p-5">
-                <div className="text-accent font-extrabold text-sm uppercase tracking-widest mb-2">We Work With</div>
-                <div className="flex gap-3 mb-4">
-                  {['🍽️ Restaurants', '🥘 Eateries', '🏨 Hotels'].map((b) => (
-                    <span key={b} className="bg-white/10 text-white text-sm font-semibold px-3 py-1.5 rounded-full">{b}</span>
-                  ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WE WORK WITH ── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="bg-primary rounded-3xl p-8 sm:p-12">
+            <div className="text-accent font-extrabold text-sm uppercase tracking-widest mb-2">We Work With</div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">Businesses Across the Food Sector</h2>
+            <p className="text-primary-200 mb-8 max-w-2xl">
+              Practical training and support for safer food, stronger businesses and a healthier future.
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              {[
+                { icon: '🍽️', label: 'Restaurants' },
+                { icon: '🥘', label: 'Eateries' },
+                { icon: '🏨', label: 'Hotels' },
+                { icon: '☕', label: 'Cafés & Coffee Shops' },
+                { icon: '🏪', label: 'Food Retailers & Supermarkets' },
+                { icon: '🏭', label: 'Food Manufacturers' },
+                { icon: '🚜', label: 'Farmers & Growers' },
+                { icon: '🚚', label: 'Food Distributors & Wholesalers' },
+                { icon: '👨‍🍳', label: 'Caterers & Contract Catering' },
+                { icon: '🏫', label: 'Schools & Educational Institutions' },
+                { icon: '🏥', label: 'Hospitals & Healthcare Facilities' },
+                { icon: '🍽️', label: 'Event & Leisure Venues' },
+                { icon: '🌱', label: 'Food Start-ups & Entrepreneurs' },
+                { icon: '🏛️', label: 'Government & Regulatory Bodies' },
+                { icon: '🤝', label: 'NGOs & Development Partners' },
+                { icon: '🌍', label: 'International Organisations' },
+              ].map(({ icon, label }) => (
+                <div key={label} className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3.5">
+                  <span className="text-2xl flex-shrink-0">{icon}</span>
+                  <span className="text-white font-semibold text-sm leading-snug">{label}</span>
                 </div>
-                <p className="text-primary-200 text-sm mb-4">Better Food. Better Business. Better Future.</p>
-                <Link to="/contact" className="inline-flex items-center gap-2 bg-accent text-white font-bold px-6 py-3 rounded-lg text-sm hover:bg-accent-light transition-colors">
-                  Get Started <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
+              ))}
+            </div>
+            <div className="flex flex-wrap items-center gap-6">
+              <Link to="/contact" className="inline-flex items-center gap-2 bg-accent text-white font-bold px-8 py-4 rounded-lg hover:bg-accent-light transition-colors">
+                Get Started <ArrowRight className="w-4 h-4" />
+              </Link>
+              <p className="text-primary-200 border-b-2 border-accent pb-1">Better Food. Better Business. Better Future.</p>
             </div>
           </div>
         </div>
