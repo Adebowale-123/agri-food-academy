@@ -1736,6 +1736,44 @@ const COURSE_DETAILS: Record<string, CourseInfo> = {
       'Enhanced career progression opportunities',
     ],
   },
+
+  'Integrated Food Risk Management & Preventive Controls (HACCP • VACCP • TACCP • HARPC)': {
+    targetAudience: [
+      'Food Safety Managers',
+      'Quality Assurance Managers',
+      'HACCP Team Leaders',
+      'Production Managers',
+      'Factory Managers',
+      'Food Technologists',
+      'Food Scientists',
+      'Regulatory Officers',
+      'Internal Auditors',
+      'Consultants',
+      'Food Business Owners',
+      'Export Managers',
+      'Retail Technical Managers',
+      'Government Food Inspectors',
+    ],
+    outcomes: [
+      'HACCP (Hazard Analysis & Critical Control Points) implementation skills',
+      'VACCP (Vulnerability Assessment & Critical Control Points) competence',
+      'TACCP (Threat Assessment & Critical Control Points) capability',
+      'HARPC (Hazard Analysis and Risk-Based Preventive Controls) application skills',
+      'Ability to integrate multiple risk frameworks into a single food safety management system',
+    ],
+    whatYouReceive: [
+      'Integrated Risk Management Toolkit',
+      'HACCP/VACCP/TACCP/HARPC Templates',
+      'Preventive Controls Workbook',
+      'AFIA Certificate of Completion',
+    ],
+    benefits: [
+      'Qualification for leadership roles in food safety and quality management',
+      'Globally recognised risk management skills',
+      'Mastery of international food safety and regulatory compliance requirements',
+      'Consulting-level capability in risk assessment and preventive control implementation',
+    ],
+  },
 };
 
 function normalise(s: string): string {

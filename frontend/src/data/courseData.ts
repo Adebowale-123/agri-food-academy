@@ -88,6 +88,7 @@ export const LEVEL_COURSE_LIST: Record<string, { cat: string; courses: string[] 
       cat: 'Food Safety & Compliance',
       courses: [
         'HACCP Level 3: HACCP System Development & Management',
+        'Integrated Food Risk Management & Preventive Controls (HACCP • VACCP • TACCP • HARPC)',
       ],
     },
     {
