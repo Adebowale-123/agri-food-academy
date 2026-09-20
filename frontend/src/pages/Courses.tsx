@@ -184,7 +184,7 @@ export default function Courses() {
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">Professional Learning Tracks</h1>
           <p className="text-primary-100 text-lg">
-            All courses are delivered through our Digital Learning &amp; Certification Platform — learn anytime, anywhere, at your pace.
+            All courses are delivered through our Digital Learning &amp; Certification Platform. Learn anytime, anywhere, at your pace.
           </p>
         </div>
       </section>
