@@ -64,9 +64,10 @@ export default function AdminCategories() {
 
   function handleDelete(cat: string) {
     const inUse = courseCountByCategory(cat);
-    if (inUse > 0 && !confirm(`${inUse} course${inUse !== 1 ? 's' : ''} currently use "${cat}". Delete it from the list anyway? Existing courses keep their category, it just won't be offered for new ones.`)) {
-      return;
-    }
+    const message = inUse > 0
+      ? `${inUse} course${inUse !== 1 ? 's' : ''} currently use "${cat}". Delete it from the list anyway? Existing courses keep their category, it just won't be offered for new ones.`
+      : `Delete the category "${cat}"?`;
+    if (!confirm(message)) return;
     saveMutation.mutate(categories.filter((c) => c !== cat));
   }
 

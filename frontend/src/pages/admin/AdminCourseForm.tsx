@@ -163,6 +163,7 @@ export default function AdminCourseForm() {
   }
 
   async function deleteMaterial(moduleId: string, materialId: string) {
+    if (!confirm('Delete this file? This cannot be undone.')) return;
     try {
       await api.delete(`/courses/materials/${materialId}`);
       setModules(modules.map((m) => m.id === moduleId ? { ...m, materials: m.materials.filter((mat) => mat.id !== materialId) } : m));
