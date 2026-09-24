@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft, Plus, Trash2, Upload, X } from 'lucide-react';
 import api from '../../services/api';
 import { Course, CourseModule, CourseMaterial } from '../../types';
+import { parseCourseExtras } from '../../data/courseExtras';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
@@ -23,6 +24,9 @@ export default function AdminCourseForm() {
   const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [extras, setExtras] = useState({ targetAudience: '', outcomes: '', benefits: '', whatYouReceive: '' });
+  const [savingExtras, setSavingExtras] = useState(false);
+  const [extrasSaved, setExtrasSaved] = useState(false);
 
   const { data: course, isLoading } = useQuery<Course>({
     queryKey: ['admin-course', id],
@@ -60,6 +64,43 @@ export default function AdminCourseForm() {
       setModules(course.modules || []);
     }
   }, [course]);
+
+  useEffect(() => {
+    if (course && settings) {
+      const mine = parseCourseExtras(settings.courseExtras)[course.id];
+      if (mine) {
+        setExtras({
+          targetAudience: (mine.targetAudience || []).join('\n'),
+          outcomes: (mine.outcomes || []).join('\n'),
+          benefits: (mine.benefits || []).join('\n'),
+          whatYouReceive: (mine.whatYouReceive || []).join('\n'),
+        });
+      }
+    }
+  }, [course, settings]);
+
+  async function handleSaveExtras() {
+    if (!course) return;
+    setSavingExtras(true);
+    try {
+      const allExtras = parseCourseExtras(settings?.courseExtras);
+      const toLines = (s: string) => s.split('\n').map((l) => l.trim()).filter(Boolean);
+      allExtras[course.id] = {
+        targetAudience: toLines(extras.targetAudience),
+        outcomes: toLines(extras.outcomes),
+        benefits: toLines(extras.benefits),
+        whatYouReceive: toLines(extras.whatYouReceive),
+      };
+      await api.put('/settings', { courseExtras: JSON.stringify(allExtras) });
+      qc.invalidateQueries({ queryKey: ['admin-settings'] });
+      setExtrasSaved(true);
+      setTimeout(() => setExtrasSaved(false), 2500);
+    } catch {
+      setError('Failed to save the extra course content');
+    } finally {
+      setSavingExtras(false);
+    }
+  }
 
   async function handleSave() {
     try {
@@ -259,6 +300,57 @@ export default function AdminCourseForm() {
               </div>
             ))}
             {modules.length === 0 && <p className="text-gray-400 text-sm text-center py-4">Add a module above to start building the curriculum</p>}
+          </div>
+        </div>
+      )}
+
+      {!isNew && (
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mt-6">
+          <h2 className="text-lg font-bold text-gray-900 mb-1">Who Should Attend, Outcomes &amp; Benefits</h2>
+          <p className="text-sm text-gray-500 mb-5">Shown on the course page. One point per line — leave a box empty to hide that section.</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="label">Who Should Attend?</label>
+              <textarea
+                className="input resize-none h-32"
+                placeholder={'Food Safety Managers\nQuality Assurance Managers\n...'}
+                value={extras.targetAudience}
+                onChange={(e) => setExtras({ ...extras, targetAudience: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">What Will You Gain?</label>
+              <textarea
+                className="input resize-none h-32"
+                placeholder={'HACCP implementation skills\nRisk assessment competence\n...'}
+                value={extras.outcomes}
+                onChange={(e) => setExtras({ ...extras, outcomes: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">Career &amp; Business Benefits</label>
+              <textarea
+                className="input resize-none h-32"
+                placeholder={'Qualification for leadership roles\nGlobally recognised skills\n...'}
+                value={extras.benefits}
+                onChange={(e) => setExtras({ ...extras, benefits: e.target.value })}
+              />
+            </div>
+            <div>
+              <label className="label">What You Will Receive (optional)</label>
+              <textarea
+                className="input resize-none h-32"
+                placeholder={'Templates and toolkits\nAFIA Certificate of Completion\n...'}
+                value={extras.whatYouReceive}
+                onChange={(e) => setExtras({ ...extras, whatYouReceive: e.target.value })}
+              />
+            </div>
+          </div>
+          <div className="mt-5 pt-5 border-t border-gray-100 flex items-center gap-3">
+            <button onClick={handleSaveExtras} disabled={savingExtras} className="btn-primary">
+              {savingExtras ? 'Saving...' : 'Save'}
+            </button>
+            {extrasSaved && <span className="text-sm text-green-600">Saved!</span>}
           </div>
         </div>
       )}

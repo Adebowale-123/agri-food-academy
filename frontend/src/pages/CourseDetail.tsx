@@ -1,10 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Clock, Users, BookOpen, ChevronDown, Lock, CheckCircle, ArrowLeft, Loader2, X, Building2 } from 'lucide-react';
+import { Clock, Users, BookOpen, ChevronDown, Lock, CheckCircle, ArrowLeft, Loader2, X, Building2, Star, Award, Gift } from 'lucide-react';
 import { useState } from 'react';
 import api from '../services/api';
 import { Course } from '../types';
 import { useAuthStore } from '../store/auth';
+import { parseCourseExtras } from '../data/courseExtras';
 import Badge from '../components/ui/Badge';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
 
@@ -185,6 +186,12 @@ export default function CourseDetail() {
     queryFn: () => api.get(`/courses/${slug}`).then((r) => r.data),
   });
 
+  const { data: settings } = useQuery<Record<string, string>>({
+    queryKey: ['public-settings'],
+    queryFn: () => api.get('/settings').then((r) => r.data),
+  });
+  const extras = course ? parseCourseExtras(settings?.courseExtras)[course.id] : undefined;
+
   const { data: enrollmentData, isLoading: checkingEnrollment } = useQuery<{
     enrolled: boolean;
     enrollment: { id: string; status: string } | null;
@@ -307,6 +314,92 @@ export default function CourseDetail() {
           </div>
         </div>
       </section>
+
+      {/* Who Should Attend / Outcomes / Benefits */}
+      {extras && (
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+            {extras.targetAudience.length > 0 && (
+              <div className="bg-surface rounded-2xl p-8 border border-gray-100">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Users className="w-5 h-5 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-bold text-primary">Who Should Attend?</h2>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {extras.targetAudience.map((item) => (
+                    <div key={item} className="flex items-center gap-2 bg-white rounded-lg px-4 py-2.5 border border-gray-100">
+                      <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
+                      <span className="text-sm text-gray-700 font-medium">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {(extras.outcomes.length > 0 || extras.benefits.length > 0) && (
+              <div className="grid lg:grid-cols-2 gap-6">
+                {extras.outcomes.length > 0 && (
+                  <div className="bg-surface rounded-2xl p-8 border border-gray-100">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Star className="w-5 h-5 text-green-600" />
+                      </div>
+                      <h2 className="text-xl font-bold text-primary">What Will You Gain?</h2>
+                    </div>
+                    <ul className="space-y-3">
+                      {extras.outcomes.map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-gray-700">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {extras.benefits.length > 0 && (
+                  <div className="bg-surface rounded-2xl p-8 border border-gray-100">
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Award className="w-5 h-5 text-accent" />
+                      </div>
+                      <h2 className="text-xl font-bold text-primary">Career &amp; Business Benefits</h2>
+                    </div>
+                    <ul className="space-y-3">
+                      {extras.benefits.map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <CheckCircle className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-gray-700">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {extras.whatYouReceive && extras.whatYouReceive.length > 0 && (
+              <div className="bg-gradient-to-r from-primary to-primary-light rounded-2xl p-8 text-white">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Gift className="w-5 h-5 text-white" />
+                  </div>
+                  <h2 className="text-xl font-bold">What You Will Receive</h2>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {extras.whatYouReceive.map((item) => (
+                    <div key={item} className="bg-white/15 backdrop-blur-sm rounded-xl px-4 py-3 flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
+                      <span className="text-sm font-medium">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Curriculum */}
       <section className="py-16 bg-surface">

@@ -133,6 +133,32 @@ export const LEVEL_COURSE_LIST: Record<string, { cat: string; courses: string[] 
   ],
 };
 
+export const CAT_DESCRIPTIONS: Record<string, string> = {
+  'Food Safety & Compliance':
+    'This programme equips food industry professionals with the knowledge and practical skills to implement and maintain robust food safety systems, comply with UK and international regulations, and protect consumers.',
+  'Food Manufacturing Engineering':
+    'Designed for engineers and technical professionals, this programme covers the design, operation, and optimisation of food manufacturing equipment, processes, and facilities to the highest hygienic engineering standards.',
+  'Food Science & Laboratory Systems':
+    'This programme develops scientific and laboratory competence for food testing, microbiological analysis, and quality verification, essential for compliance in modern food production environments.',
+  'Product Development & Innovation':
+    'From concept to commercial launch, this programme guides food product developers through formulation, sensory testing, packaging, and scale-up, building the skills to bring innovative products to market.',
+  'Food Entrepreneurship & Industry':
+    'Built for entrepreneurs and industry managers, this programme provides practical knowledge in setting up, running, and growing a food manufacturing or processing business, covering regulations, costing, and operations.',
+  'Health, Safety & Environment (HSE)':
+    'This programme prepares food industry workers and supervisors to identify hazards, manage risks, and foster a culture of safety and environmental responsibility across food manufacturing sites.',
+  'Quality Management & Systems':
+    'Covering ISO standards, auditing, CAPA, and continuous improvement tools, this programme develops quality professionals capable of implementing and sustaining world-class quality management systems in food manufacturing.',
+};
+
+// Maps the site's Foundation/Intermediate/Advanced buckets to the database's
+// Beginner/Intermediate/Advanced levels, used when migrating a catalogue
+// course into a real, admin-editable course.
+export function toDbLevel(displayLevel: string): string {
+  if (displayLevel === 'Foundation') return 'Beginner';
+  if (displayLevel === 'Intermediate' || displayLevel === 'Advanced') return displayLevel;
+  return 'Beginner';
+}
+
 export function titleToSlug(title: string): string {
   return title
     .toLowerCase()

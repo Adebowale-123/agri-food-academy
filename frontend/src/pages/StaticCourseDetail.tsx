@@ -1,26 +1,12 @@
 import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Clock, Users, BookOpen, ArrowLeft, CheckCircle, Star, Award, Gift } from 'lucide-react';
-import { findCourseBySlug } from '../data/courseData';
+import { findCourseBySlug, CAT_DESCRIPTIONS } from '../data/courseData';
 import { getCourseDetails } from '../data/courseDetails';
 import { useAuthStore } from '../store/auth';
-
-const CAT_DESCRIPTIONS: Record<string, string> = {
-  'Food Safety & Compliance':
-    'This programme equips food industry professionals with the knowledge and practical skills to implement and maintain robust food safety systems, comply with UK and international regulations, and protect consumers.',
-  'Food Manufacturing Engineering':
-    'Designed for engineers and technical professionals, this programme covers the design, operation, and optimisation of food manufacturing equipment, processes, and facilities to the highest hygienic engineering standards.',
-  'Food Science & Laboratory Systems':
-    'This programme develops scientific and laboratory competence for food testing, microbiological analysis, and quality verification — essential for compliance in modern food production environments.',
-  'Product Development & Innovation':
-    'From concept to commercial launch, this programme guides food product developers through formulation, sensory testing, packaging, and scale-up, building the skills to bring innovative products to market.',
-  'Food Entrepreneurship & Industry':
-    'Built for entrepreneurs and industry managers, this programme provides practical knowledge in setting up, running, and growing a food manufacturing or processing business, covering regulations, costing, and operations.',
-  'Health, Safety & Environment (HSE)':
-    'This programme prepares food industry workers and supervisors to identify hazards, manage risks, and foster a culture of safety and environmental responsibility across food manufacturing sites.',
-  'Quality Management & Systems':
-    'Covering ISO standards, auditing, CAPA, and continuous improvement tools, this programme develops quality professionals capable of implementing and sustaining world-class quality management systems in food manufacturing.',
-};
+import api from '../services/api';
+import { Course } from '../types';
 
 const CAT_COLORS: Record<string, string> = {
   'Food Safety & Compliance': 'bg-green-600',
@@ -42,6 +28,15 @@ export default function StaticCourseDetail() {
 
   const course = level && slug ? findCourseBySlug(level, slug) : null;
 
+  // Once this catalogue course has been turned into a real, published
+  // course by an admin, send visitors to the real (enrollable) page instead
+  // of this static preview.
+  const { data: realCourses } = useQuery<Course[]>({
+    queryKey: ['public-courses'],
+    queryFn: () => api.get('/courses').then((r) => r.data),
+  });
+  const realMatch = course ? realCourses?.find((c) => c.title === course.title) : null;
+
   if (!course) {
     return (
       <div className="pt-16 text-center py-20 text-gray-400">
@@ -51,6 +46,10 @@ export default function StaticCourseDetail() {
         </Link>
       </div>
     );
+  }
+
+  if (realMatch) {
+    return <Navigate to={`/courses/${realMatch.slug}`} replace />;
   }
 
   const description =

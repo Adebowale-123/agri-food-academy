@@ -214,9 +214,13 @@ export default function Courses() {
     .map((f) => ({ label: f, value: f, icon: undefined, color: 'bg-primary' }));
   const displayCategories = [...CATEGORIES, ...extraCategories];
 
+  // Once a catalogue course has been published for real by an admin, drop
+  // its static/preview entry so it isn't listed twice.
+  const realTitles = new Set(realCourses.map((c) => c.title));
+
   // Flat list of every course across all categories (for the "All" view)
   const ALL_COURSES = COURSE_LIST.flatMap(({ cat, courses: cl }) =>
-    cl.map((title) => ({ title, cat, level: findLevelForCourse(title) ?? 'Foundation' }))
+    cl.filter((title) => !realTitles.has(title)).map((title) => ({ title, cat, level: findLevelForCourse(title) ?? 'Foundation' }))
   );
 
   const allFiltered = ALL_COURSES.filter(({ title, cat }) => {
@@ -233,6 +237,7 @@ export default function Courses() {
   const flatCourses = filteredGroups
     ? filteredGroups
         .flatMap(({ cat, courses: cl }) => cl.map((title) => ({ title, cat })))
+        .filter(({ title }) => !realTitles.has(title))
         .filter(({ title }) => !search || title.toLowerCase().includes(search.toLowerCase()))
     : null;
 
@@ -409,7 +414,7 @@ export default function Courses() {
                   const Icon = catInfo?.icon || ShieldCheck;
                   const color = catInfo?.color || 'bg-primary';
                   const courseList = COURSE_LIST.find((cl) => cl.cat === cat)?.courses ?? [];
-                  const filtered = courseList.filter((t) => !search || t.toLowerCase().includes(search.toLowerCase()));
+                  const filtered = courseList.filter((t) => !realTitles.has(t) && (!search || t.toLowerCase().includes(search.toLowerCase())));
                   const realInCat = realCourses.filter((c) => c.faculty === cat && (!search || c.title.toLowerCase().includes(search.toLowerCase())));
                   if (filtered.length === 0 && realInCat.length === 0) return null;
                   return (
