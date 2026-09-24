@@ -6,9 +6,16 @@ import api from '../../services/api';
 import { Course, CourseModule, CourseMaterial } from '../../types';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
-const FACULTIES = ['Food Safety & Quality', 'Agro-Processing', 'Product Innovation', 'Business & Entrepreneurship', 'Technology & Digital', 'Sustainability & Regulatory'];
+// Starter categories — admins are never limited to this list. Typing any new
+// name into the Faculty field on a course creates that category immediately.
+const SEED_CATEGORIES = [
+  'Food Safety & Compliance', 'Food Manufacturing Engineering', 'Food Science & Laboratory Systems',
+  'Product Development & Innovation', 'Food Entrepreneurship & Industry', 'Health, Safety & Environment (HSE)',
+  'Quality Management & Systems', 'Technology & Digital',
+];
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 const CURRENCIES = ['NGN', 'GBP', 'USD'];
+const DEFAULT_MODULE_TITLE = 'Course Materials';
 
 export default function AdminCourseForm() {
   const { id } = useParams<{ id: string }>();
@@ -16,10 +23,11 @@ export default function AdminCourseForm() {
   const navigate = useNavigate();
   const qc = useQueryClient();
 
-  const [form, setForm] = useState({ title: '', description: '', faculty: FACULTIES[0], price: '0', currency: 'NGN', duration: '', level: 'Beginner', published: false, featured: false });
+  const [form, setForm] = useState({ title: '', description: '', faculty: SEED_CATEGORIES[0], price: '0', currency: 'NGN', duration: '', level: 'Beginner', published: false, featured: false });
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [newModuleTitle, setNewModuleTitle] = useState('');
   const [uploadingFor, setUploadingFor] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -28,6 +36,14 @@ export default function AdminCourseForm() {
     queryFn: () => api.get(`/courses/${id}`).then((r) => r.data),
     enabled: !isNew,
   });
+
+  // Categories are just whatever's already in use, plus the starter set —
+  // there's nothing to separately "create," typing a new name is enough.
+  const { data: allCourses } = useQuery<Course[]>({
+    queryKey: ['all-courses-for-categories'],
+    queryFn: () => api.get('/courses').then((r) => r.data),
+  });
+  const categoryOptions = Array.from(new Set([...SEED_CATEGORIES, ...(allCourses?.map((c) => c.faculty) ?? [])])).sort();
 
   useEffect(() => {
     if (course) {
@@ -46,6 +62,9 @@ export default function AdminCourseForm() {
       setError('');
       if (isNew) {
         const { data } = await api.post('/courses', form);
+        // Every course starts with one module ready to go, so admins can
+        // jump straight to uploading files instead of naming a module first.
+        await api.post(`/courses/${data.id}/modules`, { title: DEFAULT_MODULE_TITLE, order: 1 });
         qc.invalidateQueries({ queryKey: ['admin-courses'] });
         navigate(`/admin/courses/${data.id}/edit`);
       } else {
@@ -77,16 +96,24 @@ export default function AdminCourseForm() {
     } catch { setError('Failed to delete module'); }
   }
 
-  async function uploadMaterial(moduleId: string, file: File) {
-    try {
-      setUploadingFor(moduleId);
-      const fd = new FormData();
-      fd.append('file', file);
-      fd.append('title', file.name);
-      const { data } = await api.post(`/courses/modules/${moduleId}/materials`, fd);
-      setModules(modules.map((m) => m.id === moduleId ? { ...m, materials: [...m.materials, data] } : m));
-    } catch { setError('Upload failed'); }
-    finally { setUploadingFor(null); }
+  async function uploadMaterials(moduleId: string, files: FileList) {
+    const fileList = Array.from(files);
+    setUploadingFor(moduleId);
+    setUploadProgress({ done: 0, total: fileList.length });
+    for (let i = 0; i < fileList.length; i++) {
+      try {
+        const fd = new FormData();
+        fd.append('file', fileList[i]);
+        fd.append('title', fileList[i].name);
+        const { data } = await api.post(`/courses/modules/${moduleId}/materials`, fd);
+        setModules((prev) => prev.map((m) => m.id === moduleId ? { ...m, materials: [...m.materials, data] } : m));
+      } catch {
+        setError(`Failed to upload "${fileList[i].name}"`);
+      }
+      setUploadProgress({ done: i + 1, total: fileList.length });
+    }
+    setUploadingFor(null);
+    setUploadProgress(null);
   }
 
   async function deleteMaterial(moduleId: string, materialId: string) {
@@ -119,10 +146,18 @@ export default function AdminCourseForm() {
             <textarea className="input resize-none h-28" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Course description" />
           </div>
           <div>
-            <label className="label">Faculty</label>
-            <select className="input bg-white" value={form.faculty} onChange={(e) => setForm({ ...form, faculty: e.target.value })}>
-              {FACULTIES.map((f) => <option key={f} value={f}>{f}</option>)}
-            </select>
+            <label className="label">Category</label>
+            <input
+              className="input"
+              list="category-options"
+              value={form.faculty}
+              onChange={(e) => setForm({ ...form, faculty: e.target.value })}
+              placeholder="Pick one or type a new category"
+            />
+            <datalist id="category-options">
+              {categoryOptions.map((f) => <option key={f} value={f} />)}
+            </datalist>
+            <p className="text-xs text-gray-400 mt-1">Type a new name to create a category on the spot — no separate setup needed.</p>
           </div>
           <div>
             <label className="label">Level</label>
@@ -207,13 +242,16 @@ export default function AdminCourseForm() {
                   <label className={`mt-3 flex items-center gap-2 cursor-pointer border-2 border-dashed border-gray-200 rounded-lg p-3 hover:border-primary hover:bg-primary-50 transition-colors ${uploadingFor === module.id ? 'opacity-50' : ''}`}>
                     <Upload className="w-4 h-4 text-gray-400" />
                     <span className="text-sm text-gray-500">
-                      {uploadingFor === module.id ? 'Uploading...' : 'Upload file (PDF, video, doc, pptx)'}
+                      {uploadingFor === module.id
+                        ? `Uploading ${uploadProgress?.done ?? 0} of ${uploadProgress?.total ?? 0}...`
+                        : 'Upload files — select as many PDFs, videos or docs as you like at once'}
                     </span>
                     <input
                       type="file"
+                      multiple
                       className="hidden"
                       disabled={uploadingFor !== null}
-                      onChange={(e) => { if (e.target.files?.[0]) uploadMaterial(module.id, e.target.files[0]); }}
+                      onChange={(e) => { if (e.target.files?.length) uploadMaterials(module.id, e.target.files); e.target.value = ''; }}
                     />
                   </label>
                 </div>

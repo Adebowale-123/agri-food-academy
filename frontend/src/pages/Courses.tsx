@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ShieldCheck, Award, FlaskConical, Lightbulb, Briefcase, Heart, Factory, BookOpen } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { Search, ShieldCheck, Award, FlaskConical, Lightbulb, Briefcase, Heart, Factory, BookOpen, Sparkles } from 'lucide-react';
 import { LEVEL_COURSE_LIST, titleToSlug, findLevelForCourse } from '../data/courseData';
+import api from '../services/api';
+import { Course } from '../types';
+
+// Maps a real course's DB level to the site's Foundation/Intermediate/Advanced buckets.
+function toDisplayLevel(dbLevel: string): string {
+  if (dbLevel === 'Beginner') return 'Foundation';
+  if (dbLevel === 'Intermediate' || dbLevel === 'Advanced') return dbLevel;
+  return 'Foundation';
+}
 
 const CATEGORIES = [
   { label: 'All Programmes', value: 'All' },
@@ -136,10 +146,73 @@ function StaticCourseCard({ title, cat, level }: { title: string; cat: string; l
   );
 }
 
+function RealCourseCard({ course }: { course: Course }) {
+  const catInfo = CATEGORIES.find((c) => c.value === course.faculty);
+  const bgColor = catInfo?.color || 'bg-primary';
+  const shortLabel = catInfo?.label || course.faculty;
+  const displayLevel = toDisplayLevel(course.level);
+  const price = course.price === 0 ? 'Free' : `${course.currency === 'GBP' ? '£' : '₦'}${course.price.toLocaleString()}`;
+
+  return (
+    <div className="card overflow-hidden group ring-2 ring-accent/40">
+      <div className={`relative h-44 ${bgColor} overflow-hidden`}>
+        <div className="w-full h-full flex items-center justify-center">
+          <BookOpen className="w-16 h-16 text-white opacity-30" />
+        </div>
+        <div className="absolute top-3 right-3">
+          <span className="bg-white/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm">
+            {shortLabel}
+          </span>
+        </div>
+        <div className="absolute top-3 left-3">
+          <span className="bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+            <Sparkles className="w-3 h-3" /> Enroll Now
+          </span>
+        </div>
+      </div>
+      <div className="p-5">
+        <div className="mb-2 flex items-center gap-2">
+          <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">{displayLevel}</span>
+          <span className="text-primary font-bold text-sm">{price}</span>
+        </div>
+        <h3 className="font-bold text-gray-900 text-base leading-snug mb-5 line-clamp-2">{course.title}</h3>
+        <div className="flex items-center justify-end">
+          <Link
+            to={`/courses/${course.slug}`}
+            className="bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-accent-light transition-colors"
+          >
+            Enroll Now
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Courses() {
   const [faculty, setFaculty] = useState('All');
   const [level, setLevel] = useState('All');
   const [search, setSearch] = useState('');
+
+  // Real, enrollable courses created in the admin panel
+  const { data: realCourses = [] } = useQuery<Course[]>({
+    queryKey: ['public-courses'],
+    queryFn: () => api.get('/courses').then((r) => r.data),
+  });
+
+  const filteredRealCourses = realCourses.filter((c) => {
+    const matchFaculty = faculty === 'All' || c.faculty === faculty;
+    const matchLevel = level === 'All' || toDisplayLevel(c.level) === level;
+    const matchSearch = !search || c.title.toLowerCase().includes(search.toLowerCase());
+    return matchFaculty && matchLevel && matchSearch;
+  });
+
+  // Any category an admin has typed onto a real course that isn't one of the
+  // 7 built-in ones yet gets its own filter chip automatically.
+  const extraCategories = Array.from(new Set(realCourses.map((c) => c.faculty)))
+    .filter((f) => !CATEGORIES.some((c) => c.value === f))
+    .map((f) => ({ label: f, value: f, icon: undefined, color: 'bg-primary' }));
+  const displayCategories = [...CATEGORIES, ...extraCategories];
 
   // Flat list of every course across all categories (for the "All" view)
   const ALL_COURSES = COURSE_LIST.flatMap(({ cat, courses: cl }) =>
@@ -172,7 +245,7 @@ export default function Courses() {
     return acc;
   }, {});
 
-  const totalCount = flatCourses?.length ?? allFiltered.length;
+  const totalCount = (flatCourses?.length ?? allFiltered.length) + filteredRealCourses.length;
 
   return (
     <div className="pt-16">
@@ -193,7 +266,7 @@ export default function Courses() {
       <section className="bg-white border-b border-gray-200 sticky top-16 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-wrap gap-2 mb-3">
-            {CATEGORIES.map(({ label, value, icon: Icon }) => (
+            {displayCategories.map(({ label, value, icon: Icon }) => (
               <button
                 key={value}
                 onClick={() => setFaculty(value)}
@@ -237,7 +310,7 @@ export default function Courses() {
       {/* ── Level-specific view (Foundation / Intermediate / Advanced) ── */}
       {level !== 'All' && flatCourses !== null && (
         <>
-          {flatCourses.length === 0 ? (
+          {flatCourses.length === 0 && filteredRealCourses.length === 0 ? (
             <div className="py-20 text-center text-gray-400">No programmes match your filters.</div>
           ) : (
             <>
@@ -248,6 +321,9 @@ export default function Courses() {
                     {totalCount} programme{totalCount !== 1 ? 's' : ''} at {level} level
                   </p>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredRealCourses.map((course) => (
+                      <RealCourseCard key={course.id} course={course} />
+                    ))}
                     {featuredCourses.map(({ title, cat }) => (
                       <StaticCourseCard key={title} title={title} cat={cat} level={level} />
                     ))}
@@ -304,6 +380,9 @@ export default function Courses() {
           <section className="py-12 bg-surface">
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredRealCourses.map((course) => (
+                  <RealCourseCard key={course.id} course={course} />
+                ))}
                 {[
                   { title: 'Introduction to HACCP for Food Businesses (Foundation Level)', cat: 'Food Safety & Compliance', level: 'Foundation' },
                   { title: 'Food Product Development & Commercialisation (Concept to Market)', cat: 'Product Development & Innovation', level: 'Intermediate' },
@@ -323,22 +402,37 @@ export default function Courses() {
                 <p className="text-gray-500">40+ programmes across 7 professional learning tracks</p>
               </div>
               <div className="space-y-8">
-                {COURSE_LIST.filter((cl) => faculty === 'All' || cl.cat === faculty).map(({ cat, courses: courseList }) => {
+                {Array.from(new Set([...COURSE_LIST.map((cl) => cl.cat), ...realCourses.map((c) => c.faculty)]))
+                  .filter((cat) => faculty === 'All' || cat === faculty)
+                  .map((cat) => {
                   const catInfo = CATEGORIES.find((c) => c.value === cat);
                   const Icon = catInfo?.icon || ShieldCheck;
                   const color = catInfo?.color || 'bg-primary';
+                  const courseList = COURSE_LIST.find((cl) => cl.cat === cat)?.courses ?? [];
                   const filtered = courseList.filter((t) => !search || t.toLowerCase().includes(search.toLowerCase()));
-                  if (filtered.length === 0) return null;
+                  const realInCat = realCourses.filter((c) => c.faculty === cat && (!search || c.title.toLowerCase().includes(search.toLowerCase())));
+                  if (filtered.length === 0 && realInCat.length === 0) return null;
                   return (
                     <div key={cat} className="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                       <div className={`${color} px-6 py-4 flex items-center gap-3`}>
                         <Icon className="w-5 h-5 text-white" />
                         <h3 className="text-white font-bold">{cat}</h3>
                         <span className="ml-auto bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
-                          {filtered.length} courses
+                          {filtered.length + realInCat.length} courses
                         </span>
                       </div>
                       <div className="grid sm:grid-cols-2 gap-px bg-gray-100">
+                        {realInCat.map((course) => (
+                          <Link
+                            key={course.id}
+                            to={`/courses/${course.slug}`}
+                            className="bg-white px-5 py-3 flex items-start gap-2 hover:bg-primary-50 transition-colors group/item"
+                          >
+                            <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0 mt-2" />
+                            <span className="text-sm text-gray-700 group-hover/item:text-primary group-hover/item:underline">{course.title}</span>
+                            <span className="ml-auto text-xs font-bold text-accent flex-shrink-0">Enroll Now</span>
+                          </Link>
+                        ))}
                         {filtered.map((course) => {
                           const courseLvl = findLevelForCourse(course);
                           return courseLvl ? (
