@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import nodemailer from 'nodemailer';
 import { authenticateToken, requireAdmin } from '../middleware/auth';
+import { rateLimit } from '../middleware/rateLimit';
 import { AuthRequest } from '../types';
 
 const router = Router();
@@ -17,7 +18,7 @@ function getTransporter() {
   });
 }
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', rateLimit(10, 15 * 60 * 1000), async (req: Request, res: Response) => {
   try {
     const { name, email, phone, subject, message } = req.body;
     if (!name || !email || !subject || !message) {

@@ -2,12 +2,12 @@ import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
-import { authenticateToken } from '../middleware/auth';
+import { authenticateToken, JWT_SECRET } from '../middleware/auth';
+import { rateLimit } from '../middleware/rateLimit';
 import { AuthRequest } from '../types';
 
 const router = Router();
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'atal-secret';
 
 function signToken(user: any) {
   return jwt.sign(
@@ -17,10 +17,11 @@ function signToken(user: any) {
   );
 }
 
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/register', rateLimit(10, 15 * 60 * 1000), async (req: Request, res: Response) => {
   try {
     const { name, email, password, phone, country } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'Name, email and password are required' });
+    if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return res.status(400).json({ error: 'Email already registered' });
@@ -37,7 +38,7 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', rateLimit(10, 15 * 60 * 1000), async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'Email and password required' });
@@ -75,7 +76,10 @@ router.put('/me', authenticateToken, async (req: AuthRequest, res: Response) => 
     if (name) data.name = name;
     if (phone) data.phone = phone;
     if (country) data.country = country;
-    if (password) data.password = await bcrypt.hash(password, 10);
+    if (password) {
+      if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
+      data.password = await bcrypt.hash(password, 10);
+    }
 
     const user = await prisma.user.update({
       where: { id: req.user!.id },

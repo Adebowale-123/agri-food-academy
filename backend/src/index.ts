@@ -24,9 +24,19 @@ const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5001;
 const isProd = process.env.NODE_ENV === 'production';
 
+// Needed so req.ip reflects the real client (not the reverse proxy) when
+// running behind cPanel/Passenger — the rate limiter relies on this.
+app.set('trust proxy', 1);
+
+const ALLOWED_ORIGINS = [
+  'https://agrifiacademy.com',
+  'https://www.agrifiacademy.com',
+  'https://agri-food-academy.onrender.com',
+];
+
 app.use(cors({
   origin: isProd
-    ? true
+    ? ALLOWED_ORIGINS
     : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
   credentials: true,
 }));
