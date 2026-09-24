@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard, BookOpen, Users, Calendar, FileText, Download,
+  LayoutDashboard, BookOpen, Tags, Users, Calendar, FileText, Download,
   MessageSquare, Settings, LogOut, Menu, X, ChevronRight, CreditCard,
 } from 'lucide-react';
 
@@ -10,6 +10,7 @@ import { useAuthStore } from '../../store/auth';
 const NAV = [
   { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/admin/courses', icon: BookOpen, label: 'Courses' },
+  { to: '/admin/categories', icon: Tags, label: 'Categories' },
   { to: '/admin/students', icon: Users, label: 'Students' },
   { to: '/admin/events', icon: Calendar, label: 'Events' },
   { to: '/admin/blog', icon: FileText, label: 'Blog' },

@@ -33,6 +33,7 @@ import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminCourses from './pages/admin/AdminCourses';
 import AdminCourseForm from './pages/admin/AdminCourseForm';
+import AdminCategories from './pages/admin/AdminCategories';
 import AdminStudents from './pages/admin/AdminStudents';
 import AdminEvents from './pages/admin/AdminEvents';
 import AdminBlog from './pages/admin/AdminBlog';
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="courses" element={<AdminCourses />} />
           <Route path="courses/new" element={<AdminCourseForm />} />
           <Route path="courses/:id/edit" element={<AdminCourseForm />} />
+          <Route path="categories" element={<AdminCategories />} />
           <Route path="students" element={<AdminStudents />} />
           <Route path="events" element={<AdminEvents />} />
           <Route path="blog" element={<AdminBlog />} />

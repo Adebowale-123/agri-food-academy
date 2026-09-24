@@ -6,13 +6,6 @@ import api from '../../services/api';
 import { Course, CourseModule, CourseMaterial } from '../../types';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
-// Starter categories — admins are never limited to this list. Typing any new
-// name into the Faculty field on a course creates that category immediately.
-const SEED_CATEGORIES = [
-  'Food Safety & Compliance', 'Food Manufacturing Engineering', 'Food Science & Laboratory Systems',
-  'Product Development & Innovation', 'Food Entrepreneurship & Industry', 'Health, Safety & Environment (HSE)',
-  'Quality Management & Systems', 'Technology & Digital',
-];
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 const CURRENCIES = ['NGN', 'GBP', 'USD'];
 const DEFAULT_MODULE_TITLE = 'Course Materials';
@@ -23,7 +16,7 @@ export default function AdminCourseForm() {
   const navigate = useNavigate();
   const qc = useQueryClient();
 
-  const [form, setForm] = useState({ title: '', description: '', faculty: SEED_CATEGORIES[0], price: '0', currency: 'NGN', duration: '', level: 'Beginner', published: false, featured: false });
+  const [form, setForm] = useState({ title: '', description: '', faculty: '', price: '0', currency: 'NGN', duration: '', level: 'Beginner', published: false, featured: false });
   const [modules, setModules] = useState<CourseModule[]>([]);
   const [newModuleTitle, setNewModuleTitle] = useState('');
   const [uploadingFor, setUploadingFor] = useState<string | null>(null);
@@ -37,13 +30,25 @@ export default function AdminCourseForm() {
     enabled: !isNew,
   });
 
-  // Categories are just whatever's already in use, plus the starter set —
-  // there's nothing to separately "create," typing a new name is enough.
-  const { data: allCourses } = useQuery<Course[]>({
-    queryKey: ['all-courses-for-categories'],
-    queryFn: () => api.get('/courses').then((r) => r.data),
+  // The list of categories is managed on the Categories page — this form
+  // only picks from it.
+  const { data: settings } = useQuery<Record<string, string>>({
+    queryKey: ['admin-settings'],
+    queryFn: () => api.get('/settings').then((r) => r.data),
   });
-  const categoryOptions = Array.from(new Set([...SEED_CATEGORIES, ...(allCourses?.map((c) => c.faculty) ?? [])])).sort();
+  let categoryOptions: string[] = [];
+  try {
+    categoryOptions = settings?.categories ? JSON.parse(settings.categories) : [];
+  } catch { categoryOptions = []; }
+  // Keep a course's existing category selectable even if it was later
+  // removed from the managed list, so the field never shows blank.
+  if (course?.faculty && !categoryOptions.includes(course.faculty)) categoryOptions = [course.faculty, ...categoryOptions];
+
+  useEffect(() => {
+    if (!isNew && form.faculty) return;
+    if (categoryOptions.length && !form.faculty) setForm((f) => ({ ...f, faculty: categoryOptions[0] }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryOptions.length]);
 
   useEffect(() => {
     if (course) {
@@ -147,17 +152,13 @@ export default function AdminCourseForm() {
           </div>
           <div>
             <label className="label">Category</label>
-            <input
-              className="input"
-              list="category-options"
-              value={form.faculty}
-              onChange={(e) => setForm({ ...form, faculty: e.target.value })}
-              placeholder="Pick one or type a new category"
-            />
-            <datalist id="category-options">
-              {categoryOptions.map((f) => <option key={f} value={f} />)}
-            </datalist>
-            <p className="text-xs text-gray-400 mt-1">Type a new name to create a category on the spot — no separate setup needed.</p>
+            <select className="input bg-white" value={form.faculty} onChange={(e) => setForm({ ...form, faculty: e.target.value })}>
+              {categoryOptions.length === 0 && <option value="">No categories yet</option>}
+              {categoryOptions.map((f) => <option key={f} value={f}>{f}</option>)}
+            </select>
+            <p className="text-xs text-gray-400 mt-1">
+              Need a new one? Add it on the <Link to="/admin/categories" className="text-primary underline">Categories</Link> page first.
+            </p>
           </div>
           <div>
             <label className="label">Level</label>
