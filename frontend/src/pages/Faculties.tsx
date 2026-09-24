@@ -128,7 +128,7 @@ export default function Faculties() {
           <div className="inline-flex items-center gap-2 bg-white/10 text-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-5">Our Core Services</div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-6">5 Ways We Serve You</h1>
           <p className="text-primary-100 text-xl leading-relaxed">
-            Integrated services covering training, compliance consulting, digital technology, research and workforce development — all under one roof.
+            Integrated services covering training, compliance consulting, digital technology, research and workforce development, all under one roof.
           </p>
         </div>
       </section>

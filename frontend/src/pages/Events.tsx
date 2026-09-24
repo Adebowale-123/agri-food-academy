@@ -16,7 +16,7 @@ export default function Events() {
       <section className="bg-gradient-to-br from-primary-dark to-primary py-16 text-white text-center">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Events & Webinars</h1>
-          <p className="text-primary-100 text-lg">Stay connected through our events — workshops, webinars, and summits across Nigeria and the UK.</p>
+          <p className="text-primary-100 text-lg">Stay connected through our events: workshops, webinars, and summits across Nigeria and the UK.</p>
         </div>
       </section>
 
@@ -30,7 +30,7 @@ export default function Events() {
                 <Calendar className="w-8 h-8 text-primary-300" />
               </div>
               <h3 className="text-lg font-semibold text-gray-700 mb-2">No upcoming events</h3>
-              <p className="text-gray-400 text-sm">Check back soon — new workshops, webinars, and summits are added regularly.</p>
+              <p className="text-gray-400 text-sm">Check back soon. New workshops, webinars, and summits are added regularly.</p>
             </div>
           ) : (
             <div className="space-y-4">

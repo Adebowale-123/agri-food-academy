@@ -41,7 +41,7 @@ export default function Contact() {
           <div className="inline-flex items-center gap-2 bg-white/10 text-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-4">Contact Us</div>
           <h1 className="text-4xl font-bold mb-4">Get in Touch</h1>
           <p className="text-primary-100 text-lg">
-            Reach out to our team — we're here to help across Nigeria, Africa and the United Kingdom.
+            Reach out to our team. We're here to help across Nigeria, Africa and the United Kingdom.
           </p>
         </div>
       </section>

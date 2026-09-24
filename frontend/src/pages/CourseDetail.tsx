@@ -159,7 +159,7 @@ function BankTransferModal({
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Payment Submitted!</h3>
             <p className="text-gray-500 text-sm mb-1">Our team has been notified and will verify your transfer.</p>
-            <p className="text-gray-500 text-sm mb-6">You'll receive an email confirmation once your access is granted — usually within a few hours.</p>
+            <p className="text-gray-500 text-sm mb-6">You'll receive an email confirmation once your access is granted, usually within a few hours.</p>
             <button
               onClick={onClose}
               className="w-full bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors"
@@ -272,7 +272,7 @@ export default function CourseDetail() {
                   disabled={enrollMutation.isPending}
                   className="w-full flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-lg font-bold hover:bg-primary-light transition-colors mb-3 disabled:opacity-60"
                 >
-                  {enrollMutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Enrolling...</> : 'Enroll Now — Free'}
+                  {enrollMutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Enrolling...</> : 'Enroll Now (Free)'}
                 </button>
               ) : (
                 <button

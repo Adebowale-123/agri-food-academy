@@ -39,7 +39,7 @@ const STATS = [
   { value: '10,000+', label: 'Learners Trained Annually' },
   { value: '100+', label: 'Corporate Clients' },
   { value: '50+', label: 'Certification Programmes' },
-  { value: '6', label: 'Countries — Africa & UK' },
+  { value: '6', label: 'Countries (Africa & UK)' },
 ];
 
 const COURSE_CATEGORIES = [
@@ -478,7 +478,7 @@ export default function Home() {
             <div className="rounded-2xl overflow-hidden shadow-xl">
               <img
                 src="/images/afia-consulting.jpg.jpeg"
-                alt="AFIA — Empowering Food Businesses with Safety, Quality & Excellence"
+                alt="AFIA: Empowering Food Businesses with Safety, Quality & Excellence"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -556,7 +556,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-white/10 text-accent px-4 py-1.5 rounded-full text-sm font-semibold mb-3">Digital Learning & Certification Platform</div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">All Trainings Delivered Through Our Platform</h2>
-            <p className="text-primary-200 max-w-2xl mx-auto">A world-class digital learning experience — accessible anywhere, on any device</p>
+            <p className="text-primary-200 max-w-2xl mx-auto">A world-class digital learning experience, accessible anywhere, on any device</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {PLATFORM_FEATURES.map(({ icon: Icon, label, desc }) => (

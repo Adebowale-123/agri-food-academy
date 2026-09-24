@@ -69,7 +69,7 @@ const PILLARS = [
 const STANDARD_PRINCIPLES = [
   { icon: Microscope, title: 'Science-Led', desc: 'We ground our technical content in established scientific principles, credible evidence and recognised industry practice.' },
   { icon: Factory, title: 'Industry-Relevant', desc: 'We connect learning to the challenges professionals encounter in real food businesses, laboratories, manufacturing operations and supply chains.' },
-  { icon: Target, title: 'Application-Focused', desc: 'We emphasise the interpretation and practical application of knowledge — not simply the memorisation of concepts.' },
+  { icon: Target, title: 'Application-Focused', desc: 'We emphasise the interpretation and practical application of knowledge, not simply the memorisation of concepts.' },
   { icon: Globe, title: 'Accessible', desc: 'We use digital and flexible learning approaches to broaden access to high-quality professional agri-food education.' },
   { icon: Sparkles, title: 'Future-Focused', desc: 'We evolve alongside advances in science, regulation, manufacturing, sustainability and technology to prepare professionals for both current and emerging challenges.' },
 ];
@@ -79,7 +79,7 @@ const AFRICA_PRIORITIES = [
   { title: 'Strengthening Food Safety & Manufacturing Capability', desc: 'Supporting professionals and organisations in developing stronger cultures and systems around food safety, quality, manufacturing, hygiene, laboratory practice and continuous improvement.' },
   { title: 'Supporting SMEs & Entrepreneurs', desc: 'Expanding access to the technical knowledge required to develop safe products, understand regulatory responsibilities, strengthen manufacturing systems and scale food businesses responsibly.' },
   { title: 'Connecting Research, Industry & Innovation', desc: 'Creating stronger links between researchers, universities, manufacturers, entrepreneurs and professionals so that scientific knowledge can contribute more directly to practical challenges and commercial opportunities.' },
-  { title: 'Developing the Next Generation', desc: 'Helping young Africans recognise the breadth of careers and opportunities available across modern agri-food systems — from food science, microbiology and engineering to manufacturing, quality management, data science, research, entrepreneurship and emerging technologies.' },
+  { title: 'Developing the Next Generation', desc: 'Helping young Africans recognise the breadth of careers and opportunities available across modern agri-food systems, from food science, microbiology and engineering to manufacturing, quality management, data science, research, entrepreneurship and emerging technologies.' },
 ];
 
 const GLOBAL_OUTLOOK = [
@@ -180,7 +180,7 @@ export default function About() {
             </div>
             <h3 className="text-2xl font-bold text-primary mb-4">Our Mission</h3>
             <p className="text-gray-600 leading-relaxed">
-              To advance agri-food capability through industry-focused education, workforce development, applied research and innovation — equipping people and organisations with the knowledge and skills to build safer, smarter and more sustainable food systems.
+              To advance agri-food capability through industry-focused education, workforce development, applied research and innovation, equipping people and organisations with the knowledge and skills to build safer, smarter and more sustainable food systems.
             </p>
           </div>
           <div className="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm">
@@ -454,7 +454,7 @@ export default function About() {
             From our foundation in the United Kingdom, our emerging presence in Nigeria, and our long-term commitment to Africa and the wider world, AFIA is building connections between Education and Industry, Science and Application, Research and Innovation, Knowledge and Impact.
           </p>
           <p className="text-primary font-semibold text-lg leading-relaxed mb-10">
-            Because the future of food will depend not only on what we know — but on our ability to apply that knowledge to make food systems better.
+            Because the future of food will depend not only on what we know but on our ability to apply that knowledge to make food systems better.
           </p>
           <div className="flex items-center justify-center gap-2 text-gray-400 mb-2">
             <ShieldCheck className="w-4 h-4" />
