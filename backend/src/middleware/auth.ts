@@ -18,6 +18,22 @@ export function authenticateToken(req: AuthRequest, res: Response, next: NextFun
   }
 }
 
+// Like authenticateToken, but never blocks the request — populates req.user
+// when a valid token is present, otherwise proceeds anonymously.
+export function optionalAuth(req: AuthRequest, res: Response, next: NextFunction) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return next();
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    req.user = { id: decoded.id, email: decoded.email, name: decoded.name, role: decoded.role };
+  } catch {
+    // invalid/expired token — proceed as anonymous rather than failing
+  }
+  next();
+}
+
 export function requireAdmin(req: AuthRequest, res: Response, next: NextFunction) {
   if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Admin access required' });

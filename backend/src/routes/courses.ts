@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import { PrismaClient } from '@prisma/client';
-import { authenticateToken, requireAdmin } from '../middleware/auth';
+import { authenticateToken, requireAdmin, optionalAuth } from '../middleware/auth';
 import { AuthRequest } from '../types';
 
 const router = Router();
@@ -26,11 +26,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage, limits: { fileSize: 100 * 1024 * 1024 } });
 
-// Public: list published courses
-router.get('/', async (req: Request, res: Response) => {
+// Public: list published courses. Admins (valid admin token) also see drafts.
+router.get('/', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
     const { faculty, level, search, featured } = req.query;
-    const where: any = { published: true };
+    const isAdmin = req.user?.role === 'admin';
+    const where: any = isAdmin ? {} : { published: true };
     if (faculty) where.faculty = faculty;
     if (level) where.level = level;
     if (featured === 'true') where.featured = true;
