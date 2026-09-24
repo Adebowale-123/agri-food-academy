@@ -180,7 +180,7 @@ export default function About() {
             </div>
             <h3 className="text-2xl font-bold text-primary mb-4">Our Mission</h3>
             <p className="text-gray-600 leading-relaxed">
-              To advance agri-food capability through industry-focused education, workforce development, applied research and innovation, equipping people and organisations with the knowledge and skills to build safer, smarter and more sustainable food systems.
+              Empowering people, strengthening systems, and transforming industries through learning, compliance, innovation, and workforce development.
             </p>
           </div>
           <div className="bg-surface rounded-2xl p-8 border border-gray-100 shadow-sm">
@@ -189,7 +189,7 @@ export default function About() {
             </div>
             <h3 className="text-2xl font-bold text-primary mb-4">Our Vision</h3>
             <p className="text-gray-600 leading-relaxed">
-              To be a globally recognised hub for agri-food education, research and innovation, developing people and advancing solutions that transform food systems worldwide.
+              To be Africa's leading academy for learning, innovation, workforce development, and industry excellence.
             </p>
           </div>
         </div>
