@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Mail, Phone, MapPin, Send, CheckCircle, Globe, Linkedin, Youtube, Instagram, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, Linkedin, Youtube, Instagram, Facebook } from 'lucide-react';
 import api from '../services/api';
 
 interface FormData {
@@ -94,19 +94,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900 mb-1">Email</p>
-                  <a href="mailto:team.afiacademy@gmail.com" className="text-gray-500 text-sm hover:text-primary transition-colors">
-                    team.afiacademy@gmail.com
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 bg-primary-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Globe className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 mb-1">Website</p>
-                  <a href="https://www.afiaacademy.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 text-sm hover:text-primary transition-colors">
-                    www.afiaacademy.com
+                  <a href="mailto:info@agrifiacademy.com" className="text-gray-500 text-sm hover:text-primary transition-colors">
+                    info@agrifiacademy.com
                   </a>
                 </div>
               </div>
