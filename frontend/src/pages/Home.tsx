@@ -305,7 +305,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-primary">Our Mission</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              Empowering people, strengthening systems, and transforming industries through learning, compliance, innovation, and workforce development.
+              To advance agri-food capability through industry-focused education, workforce development, applied research and innovation, equipping people and organisations with the knowledge and skills to build safer, smarter and more sustainable food systems.
             </p>
           </div>
           <div className="bg-white rounded-2xl p-8 border-l-4 border-accent shadow-sm hover:shadow-md transition-shadow">
@@ -316,7 +316,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-primary">Our Vision</h3>
             </div>
             <p className="text-gray-600 leading-relaxed">
-              To be Africa's leading academy for learning, innovation, workforce development, and industry excellence.
+              To be a globally recognised hub for agri-food education, research and innovation, developing people and advancing solutions that transform food systems worldwide.
             </p>
           </div>
         </div>
